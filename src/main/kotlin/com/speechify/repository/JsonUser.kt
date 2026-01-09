@@ -13,7 +13,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class JsonUser(
-    private val dbFilePath: String = "src/main/kotlin/com/speechify/db.json",
+    private val dbFilePath: String = "src/main/kotlin/com/speechify/data/db.json",
     private val clientRepository: ClientRepository = JsonClient()
 ) : UserRepository {
 

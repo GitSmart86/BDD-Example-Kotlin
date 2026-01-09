@@ -8,7 +8,7 @@ import com.speechify.domain.ClientType
 import java.io.File
 
 class JsonClient(
-    private val dbFilePath: String = "src/main/kotlin/com/speechify/db.json"
+    private val dbFilePath: String = "src/main/kotlin/com/speechify/data/db.json"
 ) : ClientRepository {
 
     private val objectMapper = ObjectMapper()
