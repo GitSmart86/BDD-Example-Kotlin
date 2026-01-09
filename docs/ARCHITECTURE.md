@@ -1,6 +1,48 @@
-# Architecture Summary
+# Architecture Features & Summary
 
-This project showcases a **Behavior-Driven Development (BDD)** approach. Here, you write `Given/When/Then` tests against interfaces rather than implementations.
+---
+
+## File Structure
+
+```
+src/
+├── main/kotlin/
+│   ├── Core.kt                        # Entry point facade
+│   ├── cache/
+│   │   ├── Config.kt                  # Cache configuration
+│   │   ├── Interface.kt               # Cache interface
+│   │   ├── Provider.kt                # Cache factory
+│   │   └── Impl.kt                    # LRU implementation
+│   ├── domain/
+│   │   └── Models.kt                  # User, Client, ClientType
+│   ├── repository/
+│   │   ├── Interfaces.kt              # Interfaces
+│   │   ├── JsonUser.kt                # JSON persistence
+│   │   ├── JsonClient.kt              # JSON persistence
+│   │   └── CachedUser.kt              # Caching decorator
+│   ├── service/
+│   │   ├── UserMisc.kt                # Interfaces & DTOs
+│   │   ├── UserDefault.kt             # Implementation
+│   │   └── UserValidator.kt           # Validation logic
+│   └── policy/
+│       ├── UserCredits.kt             # Interface
+│       └── UserCreditsDefault.kt      # Implementation
+│
+└── test/kotlin/
+    ├── dsl/
+    │   ├── UserTestDSL.kt             # User test DSL
+    │   └── CacheTestDSL.kt            # Cache test DSL
+    ├── drivers/
+    │   └── InMemoryTestDriver.kt      # Test doubles
+    ├── fixtures/
+    │   └── TestFixtures.kt            # Test data builders
+    └── tests/
+        ├── UserValidationBehaviorTest.kt
+        ├── CreditLimitBehaviorTest.kt
+        ├── CacheBehaviorTest.kt
+        ├── CacheIntegrationBehaviorTest.kt
+        └── ClientRepositoryBehaviorTest.kt
+```
 
 ---
 
@@ -91,53 +133,9 @@ flowchart LR
 
 ---
 
-## File Structure
-
-```
-src/
-├── main/kotlin/
-│   ├── Core.kt                        # Entry point facade
-│   ├── cache/
-│   │   ├── Config.kt                  # Cache configuration
-│   │   ├── Interface.kt               # Cache interface
-│   │   ├── Provider.kt                # Cache factory
-│   │   └── Impl.kt                    # LRU implementation
-│   ├── domain/
-│   │   └── Models.kt                  # User, Client, ClientType
-│   ├── repository/
-│   │   ├── Interfaces.kt              # Interfaces
-│   │   ├── JsonUser.kt                # JSON persistence
-│   │   ├── JsonClient.kt              # JSON persistence
-│   │   └── CachedUser.kt              # Caching decorator
-│   ├── service/
-│   │   ├── UserMisc.kt                # Interfaces & DTOs
-│   │   ├── UserDefault.kt             # Implementation
-│   │   └── UserValidator.kt           # Validation logic
-│   └── policy/
-│       ├── UserCredits.kt             # Interface
-│       └── UserCreditsDefault.kt      # Implementation
-│
-└── test/kotlin/
-    ├── dsl/
-    │   ├── UserTestDSL.kt             # User test DSL
-    │   └── CacheTestDSL.kt            # Cache test DSL
-    ├── drivers/
-    │   └── InMemoryTestDriver.kt      # Test doubles
-    ├── fixtures/
-    │   └── TestFixtures.kt            # Test data builders
-    └── tests/
-        ├── UserValidationBehaviorTest.kt
-        ├── CreditLimitBehaviorTest.kt
-        ├── CacheBehaviorTest.kt
-        ├── CacheIntegrationBehaviorTest.kt
-        └── ClientRepositoryBehaviorTest.kt
-```
-
----
-
 ## What This Project Demonstrates
 
-## **One** Nice BDD Test Architecture
+## **One** Nice BDD Design
 
 ```
 Test Cases (declarative, behavior-focused)
@@ -152,7 +150,7 @@ Test Cases (declarative, behavior-focused)
    System Under Test
 ```
 
-## **Two** Key principles: Tests are stable; implementations are volatile. When you test behavior through interfaces, refactoring the implementation doesn't break your tests
+## **Two** Core Principles
 
 ### 2.1 Always have User Friendly Facade for a Quick Start
 
@@ -192,7 +190,7 @@ when (result) {
 
 ---
 
-## **Three** Key Production Features
+## **Three** Production Features
 
 ### 3.1 Easy Configuration
 
