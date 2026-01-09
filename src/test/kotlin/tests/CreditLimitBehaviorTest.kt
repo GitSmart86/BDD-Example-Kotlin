@@ -1,6 +1,6 @@
 package behavior
 
-import com.speechify.domain.ClientType
+import domain.ClientType
 import dsl.UserTestDSL
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -15,7 +15,7 @@ class CreditLimitBehaviorTest {
     @BeforeEach
     fun setup() {
         dsl = UserTestDSL()
-        dsl.withDefaultUserService()
+        dsl.withUserDefault()
     }
 
     @Test

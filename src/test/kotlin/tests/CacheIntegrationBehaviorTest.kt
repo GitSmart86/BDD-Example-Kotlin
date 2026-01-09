@@ -1,11 +1,11 @@
 package behavior
 
-import com.speechify.cache.Config
-import com.speechify.cache.Interface as CacheInterface
-import com.speechify.cache.Provider
-import com.speechify.domain.Client
-import com.speechify.domain.ClientType
-import com.speechify.domain.User
+import cache.Config
+import cache.Interface as CacheInterface
+import cache.Provider
+import domain.Client
+import domain.ClientType
+import domain.User
 import drivers.InMemoryUserRepository
 import fixtures.TestFixtures
 import org.junit.jupiter.api.BeforeEach

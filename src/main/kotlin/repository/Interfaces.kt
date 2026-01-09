@@ -1,7 +1,7 @@
-package com.speechify.repository
+package repository
 
-import com.speechify.domain.User
-import com.speechify.domain.Client
+import domain.User
+import domain.Client
 
 interface UserRepository {
     fun findById(id: String): User?

@@ -1,4 +1,4 @@
-package com.speechify.cache
+package cache
 
 /**
  * A Least Recently Used (LRU) cache is a type of cache that evicts the 'least recently used items'

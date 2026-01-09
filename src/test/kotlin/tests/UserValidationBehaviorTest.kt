@@ -1,9 +1,9 @@
 package behavior
 
-import com.speechify.domain.ClientType
-import com.speechify.policy.CreditLimit
-import com.speechify.policy.UserCredits
-import com.speechify.service.AddUserRequest
+import domain.ClientType
+import policy.CreditLimit
+import policy.UserCredits
+import service.AddUserRequest
 import dsl.UserTestDSL
 import fixtures.TestFixtures
 import org.junit.jupiter.api.BeforeEach
@@ -19,7 +19,7 @@ class UserValidationBehaviorTest {
     @BeforeEach
     fun setup() {
         dsl = UserTestDSL()
-        dsl.withDefaultUserService()
+        dsl.withUserDefault()
     }
 
     @Test

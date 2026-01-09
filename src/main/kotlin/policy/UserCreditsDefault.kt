@@ -1,7 +1,7 @@
-package com.speechify.policy
+package policy
 
-import com.speechify.domain.Client
-import com.speechify.domain.ClientType
+import domain.Client
+import domain.ClientType
 
 class UserCreditsDefault : UserCredits {
 

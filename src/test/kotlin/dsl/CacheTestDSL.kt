@@ -1,8 +1,8 @@
 package dsl
 
-import com.speechify.cache.Config
-import com.speechify.cache.Interface as CacheInterface
-import com.speechify.cache.Provider
+import cache.Config
+import cache.Interface as CacheInterface
+import cache.Provider
 import org.junit.jupiter.api.Assertions.*
 
 class CacheTestDSL<T> {

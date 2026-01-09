@@ -1,4 +1,4 @@
-package com.speechify.service
+package service
 
 import java.time.LocalDate
 import java.time.Period

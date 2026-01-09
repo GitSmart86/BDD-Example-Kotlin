@@ -104,7 +104,7 @@ flowchart LR
 
 ```
 src/
-├── main/kotlin/com/speechify/
+├── main/kotlin/
 │   ├── cache/
 │   │   ├── Config.kt                  # Cache configuration
 │   │   ├── Interface.kt               # Cache interface

@@ -1,7 +1,7 @@
-package com.speechify.repository
+package repository
 
-import com.speechify.cache.Interface as CacheInterface
-import com.speechify.domain.User
+import cache.Interface as CacheInterface
+import domain.User
 
 /**
  * Decorator that adds caching to any UserRepository implementation.

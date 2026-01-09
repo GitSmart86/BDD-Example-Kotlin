@@ -1,9 +1,9 @@
 package fixtures
 
-import com.speechify.domain.Client
-import com.speechify.domain.ClientType
-import com.speechify.domain.User
-import com.speechify.service.AddUserRequest
+import domain.Client
+import domain.ClientType
+import domain.User
+import service.AddUserRequest
 import java.time.LocalDate
 import java.util.UUID
 

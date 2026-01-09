@@ -1,7 +1,7 @@
 package behavior
 
-import com.speechify.domain.Client
-import com.speechify.domain.ClientType
+import domain.Client
+import domain.ClientType
 import drivers.InMemoryClientRepository
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

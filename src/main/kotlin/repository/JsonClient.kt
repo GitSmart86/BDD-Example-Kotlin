@@ -1,14 +1,14 @@
-package com.speechify.repository
+package repository
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
-import com.speechify.domain.Client
-import com.speechify.domain.ClientType
+import domain.Client
+import domain.ClientType
 import java.io.File
 
 class JsonClient(
-    private val dbFilePath: String = "src/main/kotlin/com/speechify/data/db.json"
+    private val dbFilePath: String = "src/main/kotlin/data/db.json"
 ) : ClientRepository {
 
     private val objectMapper = ObjectMapper()

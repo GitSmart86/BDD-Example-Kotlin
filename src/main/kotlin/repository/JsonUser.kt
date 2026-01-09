@@ -1,19 +1,19 @@
-package com.speechify.repository
+package repository
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.speechify.domain.Client
-import com.speechify.domain.ClientType
-import com.speechify.domain.User
+import domain.Client
+import domain.ClientType
+import domain.User
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class JsonUser(
-    private val dbFilePath: String = "src/main/kotlin/com/speechify/data/db.json",
+    private val dbFilePath: String = "src/main/kotlin/data/db.json",
     private val clientRepository: ClientRepository = JsonClient()
 ) : UserRepository {
 

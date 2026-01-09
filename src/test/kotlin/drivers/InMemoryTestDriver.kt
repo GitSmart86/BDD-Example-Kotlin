@@ -1,9 +1,9 @@
 package drivers
 
-import com.speechify.domain.Client
-import com.speechify.domain.User
-import com.speechify.repository.ClientRepository
-import com.speechify.repository.UserRepository
+import domain.Client
+import domain.User
+import repository.ClientRepository
+import repository.UserRepository
 
 class InMemoryUserRepository : UserRepository {
     private val users = mutableMapOf<String, User>()

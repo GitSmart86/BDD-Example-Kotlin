@@ -1,9 +1,9 @@
-package com.speechify.service
+package service
 
-import com.speechify.domain.User
-import com.speechify.policy.UserCredits
-import com.speechify.repository.ClientRepository
-import com.speechify.repository.UserRepository
+import domain.User
+import policy.UserCredits
+import repository.ClientRepository
+import repository.UserRepository
 import java.util.UUID
 
 class UserDefault(

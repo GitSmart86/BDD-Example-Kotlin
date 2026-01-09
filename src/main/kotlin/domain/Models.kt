@@ -1,4 +1,4 @@
-package com.speechify.domain
+package domain
 
 import java.time.LocalDate
 

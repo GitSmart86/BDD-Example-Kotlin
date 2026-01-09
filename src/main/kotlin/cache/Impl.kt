@@ -1,4 +1,4 @@
-package com.speechify.cache
+package cache
 
 class Impl<T>(private val maxSize: Int) : Interface<T> {
     // Use LinkedHashMap with accessOrder=true for automatic LRU ordering

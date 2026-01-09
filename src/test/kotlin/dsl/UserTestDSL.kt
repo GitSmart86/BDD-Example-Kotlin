@@ -1,16 +1,16 @@
 package dsl
 
-import com.speechify.domain.Client
-import com.speechify.domain.ClientType
-import com.speechify.domain.User
-import com.speechify.policy.CreditLimit
-import com.speechify.policy.UserCredits
-import com.speechify.policy.UserCreditsDefault
-import com.speechify.service.AddUserRequest
-import com.speechify.service.AddUserResult
-import com.speechify.service.UserDefault
-import com.speechify.service.UserService
-import com.speechify.service.UserValidator
+import domain.Client
+import domain.ClientType
+import domain.User
+import policy.CreditLimit
+import policy.UserCredits
+import policy.UserCreditsDefault
+import service.AddUserRequest
+import service.AddUserResult
+import service.UserDefault
+import service.UserService
+import service.UserValidator
 import drivers.InMemoryClientRepository
 import drivers.InMemoryUserRepository
 import fixtures.TestFixtures

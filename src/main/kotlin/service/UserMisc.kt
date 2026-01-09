@@ -1,6 +1,6 @@
-package com.speechify.service
+package service
 
-import com.speechify.domain.User
+import domain.User
 import java.time.LocalDate
 
 interface UserService {
