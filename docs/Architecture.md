@@ -238,7 +238,7 @@ Structured logging throughout with appropriate levels:
 
 | File | Pattern | Description |
 | ---- | ------- | ----------- |
-| `BDD.kt` | **Facade** | Single entry point to the entire API |
+| `Core.kt` | **Facade** | Single entry point to the entire API |
 | `cache/Provider.kt` | **Factory** | Encapsulates creation of cache instances |
 | `UserCredits.kt` | **Strategy** (Interface) | Defines contract for credit limit algorithms |
 | `UserCreditsDefault.kt` | **Strategy** (Impl) | Implements credit logic based on `ClientType` |
