@@ -16,10 +16,38 @@ This project demonstrates a **Behavior-Driven Development (BDD)** approach where
 
 ---
 
+## Quick Start
+
+The `BDD.kt` facade provides easy access to the entire API:
+
+```kotlin
+// Simple usage - one import, one line setup
+val service = BDD.createUserService()
+
+val result = service.addUser(BDD.addUserRequest(
+    firstname = "John",
+    surname = "Doe",
+    email = "john@example.com",
+    dateOfBirth = LocalDate.of(1990, 1, 1),
+    clientId = "client-123"
+))
+
+when (result) {
+    is AddUserResult.Success -> println("Created: ${result.user}")
+    is AddUserResult.ValidationError -> println("Error: ${result.reason}")
+    is AddUserResult.DuplicateEmail -> println("Email exists")
+    is AddUserResult.ClientNotFound -> println("Invalid client")
+}
+```
+
+---
+
 ## Layered Architecture
 
 ```mermaid
 flowchart TB
+    BDD[BDD.kt<br/>Entry Point Facade]
+
     subgraph TEST["TEST LAYER"]
         UBT[UserBehaviorTest]
         CBT[CacheBehaviorTest]
@@ -39,12 +67,13 @@ flowchart TB
         JUR[JsonUser]
         JCR[JsonClient]
         LCI[cache.Impl&lt;T&gt;]
-        CUR[CachedUserRepo<br/>decorator]
+        CUR[CachedUser<br/>decorator]
         DCP[UserCreditsDefault]
     end
 
     DB[(db.json<br/>Data Storage)]
 
+    BDD --> US & LC
     DSL --> UR & CR & LC & US & CP
     UR -.-> JUR & CUR
     CR -.-> JCR
@@ -105,6 +134,7 @@ flowchart LR
 ```
 src/
 ├── main/kotlin/
+│   ├── BDD.kt                         # Entry point facade
 │   ├── cache/
 │   │   ├── Config.kt                  # Cache configuration
 │   │   ├── Interface.kt               # Cache interface
@@ -147,6 +177,7 @@ src/
 
 | File | Pattern | Description |
 | ---- | ------- | ----------- |
+| `BDD.kt` | **Facade** | Single entry point to the entire API |
 | `cache/Provider.kt` | **Factory** | Encapsulates creation of cache instances |
 | `UserCredits.kt` | **Strategy** (Interface) | Defines contract for credit limit algorithms |
 | `UserCreditsDefault.kt` | **Strategy** (Impl) | Implements credit logic based on `ClientType` |
