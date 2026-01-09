@@ -1,6 +1,7 @@
 package service
 
 import domain.User
+import org.slf4j.LoggerFactory
 import policy.UserCredits
 import repository.ClientRepository
 import repository.UserRepository
@@ -13,21 +14,33 @@ class UserDefault(
     private val validator: UserValidator = UserValidator()
 ) : UserService {
 
+    private val logger = LoggerFactory.getLogger(UserDefault::class.java)
+
     override suspend fun addUser(request: AddUserRequest): AddUserResult {
+        logger.info("Adding user: email={}", request.email)
+
         // 1. Validate request fields
-        validator.validate(request)?.let { return it }
+        validator.validate(request)?.let { error ->
+            logger.warn("Validation failed for {}: {}", request.email, error.reason)
+            return error
+        }
 
         // 2. Check for duplicate email
         if (userRepository.existsByEmail(request.email)) {
+            logger.warn("Duplicate email rejected: {}", request.email)
             return AddUserResult.DuplicateEmail
         }
 
         // 3. Find the client
         val client = clientRepository.findById(request.clientId)
-            ?: return AddUserResult.ClientNotFound
+        if (client == null) {
+            logger.warn("Client not found: {}", request.clientId)
+            return AddUserResult.ClientNotFound
+        }
 
         // 4. Calculate credit limit based on client type
         val creditLimit = creditPolicy.calculateCreditLimit(client)
+        logger.debug("Credit limit calculated: hasLimit={}, amount={}", creditLimit.hasLimit, creditLimit.amount)
 
         // 5. Create and save the user
         val user = User(
@@ -44,21 +57,32 @@ class UserDefault(
         val saved = userRepository.save(user)
 
         return if (saved) {
+            logger.info("User created successfully: id={}, email={}", user.id, user.email)
             AddUserResult.Success(user)
         } else {
+            logger.error("Failed to save user: email={}", request.email)
             AddUserResult.ValidationError("Failed to save user")
         }
     }
 
     override suspend fun updateUser(user: User): Boolean {
-        return userRepository.update(user)
+        logger.debug("Updating user: id={}", user.id)
+        return userRepository.update(user).also { success ->
+            if (success) {
+                logger.info("User updated: id={}", user.id)
+            } else {
+                logger.warn("User update failed: id={}", user.id)
+            }
+        }
     }
 
     override suspend fun getUserByEmail(email: String): User? {
+        logger.debug("Looking up user by email: {}", email)
         return userRepository.findByEmail(email)
     }
 
     override suspend fun getAllUsers(): List<User> {
+        logger.debug("Fetching all users")
         return userRepository.findAll()
     }
 }

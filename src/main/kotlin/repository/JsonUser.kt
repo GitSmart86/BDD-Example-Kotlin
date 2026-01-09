@@ -10,6 +10,7 @@ import domain.ClientType
 import domain.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -18,6 +19,8 @@ class JsonUser(
     private val dbFilePath: String = "src/main/kotlin/data/db.json",
     private val clientRepository: ClientRepository = JsonClient()
 ) : UserRepository {
+
+    private val logger = LoggerFactory.getLogger(JsonUser::class.java)
 
     private val objectMapper = ObjectMapper().apply {
         registerModule(JavaTimeModule())
@@ -34,20 +37,28 @@ class JsonUser(
 
     override suspend fun findAll(): List<User> = withContext(Dispatchers.IO) {
         try {
+            logger.debug("Loading users from {}", dbFilePath)
             val dbFile = File(dbFilePath)
-            if (!dbFile.exists()) return@withContext emptyList()
+            if (!dbFile.exists()) {
+                logger.warn("Database file not found: {}", dbFilePath)
+                return@withContext emptyList()
+            }
 
             val root = objectMapper.readTree(dbFile) as ObjectNode
             val users = root.get("users") as? ArrayNode ?: return@withContext emptyList()
 
-            users.mapNotNull { node -> mapToUser(node as ObjectNode) }
+            val result = users.mapNotNull { node -> mapToUser(node as ObjectNode) }
+            logger.debug("Loaded {} users from database", result.size)
+            result
         } catch (e: Exception) {
+            logger.error("Failed to load users from {}: {}", dbFilePath, e.message)
             emptyList()
         }
     }
 
     override suspend fun save(user: User): Boolean = withContext(Dispatchers.IO) {
         try {
+            logger.debug("Saving user: id={}, email={}", user.id, user.email)
             val dbFile = File(dbFilePath)
             val root = if (dbFile.exists()) {
                 objectMapper.readTree(dbFile) as ObjectNode
@@ -62,16 +73,22 @@ class JsonUser(
             users.add(userNode)
 
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(dbFile, root)
+            logger.info("User saved successfully: id={}", user.id)
             true
         } catch (e: Exception) {
+            logger.error("Failed to save user {}: {}", user.id, e.message)
             false
         }
     }
 
     override suspend fun update(user: User): Boolean = withContext(Dispatchers.IO) {
         try {
+            logger.debug("Updating user: id={}", user.id)
             val dbFile = File(dbFilePath)
-            if (!dbFile.exists()) return@withContext false
+            if (!dbFile.exists()) {
+                logger.warn("Cannot update user {}: database file not found", user.id)
+                return@withContext false
+            }
 
             val root = objectMapper.readTree(dbFile) as ObjectNode
             val users = root.get("users") as? ArrayNode ?: return@withContext false
@@ -88,9 +105,13 @@ class JsonUser(
 
             if (found) {
                 objectMapper.writerWithDefaultPrettyPrinter().writeValue(dbFile, root)
+                logger.info("User updated successfully: id={}", user.id)
+            } else {
+                logger.warn("User not found for update: id={}", user.id)
             }
             found
         } catch (e: Exception) {
+            logger.error("Failed to update user {}: {}", user.id, e.message)
             false
         }
     }

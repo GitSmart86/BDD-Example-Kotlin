@@ -7,18 +7,24 @@ import domain.Client
 import domain.ClientType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.slf4j.LoggerFactory
 import java.io.File
 
 class JsonClient(
     private val dbFilePath: String = "src/main/kotlin/data/db.json"
 ) : ClientRepository {
 
+    private val logger = LoggerFactory.getLogger(JsonClient::class.java)
     private val objectMapper = ObjectMapper()
 
     override suspend fun findById(id: String): Client? = withContext(Dispatchers.IO) {
         try {
+            logger.debug("Looking up client: id={}", id)
             val dbFile = File(dbFilePath)
-            if (!dbFile.exists()) return@withContext null
+            if (!dbFile.exists()) {
+                logger.warn("Database file not found: {}", dbFilePath)
+                return@withContext null
+            }
 
             val root = objectMapper.readTree(dbFile) as ObjectNode
             val clients = root.get("clients") as? ArrayNode ?: return@withContext null
@@ -26,25 +32,35 @@ class JsonClient(
             for (node in clients) {
                 val clientNode = node as ObjectNode
                 if (clientNode.get("id").asText() == id) {
+                    logger.debug("Client found: id={}", id)
                     return@withContext mapToClient(clientNode)
                 }
             }
+            logger.debug("Client not found: id={}", id)
             null
         } catch (e: Exception) {
+            logger.error("Failed to find client {}: {}", id, e.message)
             null
         }
     }
 
     override suspend fun findAll(): List<Client> = withContext(Dispatchers.IO) {
         try {
+            logger.debug("Loading all clients from {}", dbFilePath)
             val dbFile = File(dbFilePath)
-            if (!dbFile.exists()) return@withContext emptyList()
+            if (!dbFile.exists()) {
+                logger.warn("Database file not found: {}", dbFilePath)
+                return@withContext emptyList()
+            }
 
             val root = objectMapper.readTree(dbFile) as ObjectNode
             val clients = root.get("clients") as? ArrayNode ?: return@withContext emptyList()
 
-            clients.map { node -> mapToClient(node as ObjectNode) }
+            val result = clients.map { node -> mapToClient(node as ObjectNode) }
+            logger.debug("Loaded {} clients", result.size)
+            result
         } catch (e: Exception) {
+            logger.error("Failed to load clients from {}: {}", dbFilePath, e.message)
             emptyList()
         }
     }
