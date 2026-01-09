@@ -1,29 +1,25 @@
 # BDD Example - Kotlin
 
-A showcase of **Behavior-Driven Development (BDD)** principles applied to a Kotlin codebase, demonstrating how to write tests against interfaces rather than implementations.
+Hello there! This is a showcase of **Behavior-Driven Development (BDD)** principles applied to a Claude Code codebase (technically Kotlin, but that's a side point). This repo demonstrates how to write "Given/When/Then" tests against unimplemented interfaces rather than writing ad-hoc unit tests against pre-existing implementations. This boiler plate can be reused in any project in any computer language to remove most of the conventional codebase development and scaling issues that teams encounter. You can search YouTube for interviews with Kent Beck and Dave Farley to learn the origins of Agile, TDD, BDD, Xtreme Programming, etc. Or you can chat with me to get the rundown.
 
 ---
 
 ## Background
 
-This project started as a timed coding exercise (refactoring + caching implementation). I approached it differently than intended - instead of just completing the tasks, I used it as an opportunity to demonstrate proper BDD architecture.
-
 ### My Starting Point
 
 - **Zero Kotlin experience** - This was my first Kotlin project
-- **Minimal Java knowledge** - Understood the JVM ecosystem conceptually but hadn't written production Java
-- **Strong BDD background** - Familiar with Dave Farley's testing philosophy and Gang of Four patterns
+- **Minimal Java knowledge** - I used the JVM ecosystem way back in uni. days but hadn't written Java since then.
+- **Strong BDD background** - Familiar with Dave Farley's testing philosophy and Gang of Four patterns. This builds on Kent Beck, Bob Martin, and Robert Fowler's work.
 
-### How I Built It
+### How I built it in <45 min
 
-I used **Claude Code** (Anthropic's AI coding assistant) to help implement the architecture. The process was collaborative:
+I used **Claude Code** to help implement the architecture. The process was collaborative:
 
-1. I provided the BDD principles and architectural direction (Dave Farley's approach)
-2. Claude helped translate those concepts into Kotlin idioms
-3. I guided decisions toward a more purist BDD approach when Claude suggested shortcuts
-4. We iterated on the test DSL design until it read like specifications
-
-The result isn't perfectly polished, but it demonstrates the core BDD concepts effectively.
+1. I provided the Dave-Farley-BDD-principles.md to claude and the architectural direction
+2. Claude converted those concepts into Kotlin idioms
+3. I fed Claude baby steps to stay on a purist BDD approach and held it's hand when it tried to take shortcuts
+4. We just iterated on the test DSL design and kept cleaning up until the codebase read like specifications, IKEA EZ.
 
 ---
 
@@ -70,44 +66,7 @@ Test Cases (declarative, behavior-focused)
 
 ---
 
-## Running the Tests
-
-```bash
-# Requires Java 17+
-./gradlew test
-```
-
----
-
-## Project Structure
-
-```
-├── README.md                      # This file
-├── ARCHITECTURE.md                # Detailed architecture guide
-├── 1-Dave-Farley-BDD-principles.md  # BDD philosophy reference
-│
-├── src/main/kotlin/com/speechify/
-│   ├── domain/                    # Immutable domain models
-│   ├── repository/                # Data access layer
-│   ├── service/                   # Business logic
-│   └── policy/                    # Strategy implementations
-│
-└── src/test/kotlin/
-    ├── dsl/                       # Test DSL (Given/When/Then)
-    ├── drivers/                   # In-memory test doubles
-    ├── fixtures/                  # Test data builders
-    └── behavior/                  # BDD test specifications
-```
-
----
-
 ## Further Reading
 
-- [ARCHITECTURE.md](ARCHITECTURE.md) - Detailed patterns and control flow diagrams
-- [1-Dave-Farley-BDD-principles.md](1-Dave-Farley-BDD-principles.md) - The BDD philosophy behind this approach
-
----
-
-## Acknowledgments
-
-Built with assistance from **Claude Code** (Claude Opus 4.5) - demonstrating how AI can help implement architectural patterns when given clear principles and direction.
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md) - Detailed patterns and control flow diagrams
+- [1-Dave-Farley-BDD-principles.md](docs/1-Dave-Farley-BDD-principles.md) - The BDD philosophy behind this approach

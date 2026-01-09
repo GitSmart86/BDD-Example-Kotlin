@@ -8,7 +8,7 @@ import com.speechify.policy.CreditPolicy
 import com.speechify.policy.DefaultCreditPolicy
 import com.speechify.service.AddUserRequest
 import com.speechify.service.AddUserResult
-import com.speechify.service.DefaultUserService
+import com.speechify.service.UserServiceDefault
 import com.speechify.service.UserService
 import com.speechify.service.UserValidator
 import drivers.InMemoryClientRepository
@@ -30,10 +30,10 @@ class UserTestDSL {
         this.userService = service
     }
 
-    fun withDefaultUserService() {
+    fun withUserServiceDefault() {
         val creditPolicy = DefaultCreditPolicy()
         val validator = UserValidator()
-        this.userService = DefaultUserService(
+        this.userService = UserServiceDefault(
             userRepository = userRepository,
             clientRepository = clientRepository,
             creditPolicy = creditPolicy,

@@ -55,66 +55,6 @@ flowchart TB
 
 ---
 
-## Gang of Four Patterns
-
-| File | Pattern | Description |
-| ---- | ------- | ----------- |
-| `LRUCacheProvider.kt` | **Factory** | Encapsulates creation of `LRUCacheImpl` instances |
-| `CreditPolicy.kt` | **Strategy** (Interface) | Defines contract for credit limit algorithms |
-| `DefaultCreditPolicy.kt` | **Strategy** (Impl) | Implements credit logic based on `ClientType` |
-| `CachedUserRepository.kt` | **Decorator** | Wraps `UserRepository` to add transparent caching |
-| `DefaultUserService.kt` | **Facade** | Orchestrates repositories, policies, and validators |
-| `Repositories.kt` | **Repository** | Abstracts data persistence |
-| `UserTestDSL.kt` | **Template Method** | Enforces Given-When-Then test structure |
-| `TestFixtures.kt` | **Builder** | Fluent test object construction via default params |
-| `AddUserResult` | **Sealed Class** | Type-safe exhaustive result handling |
-
----
-
-## BDD Test Specifications
-
-### User Validation Tests
-
-| Test Case | Given | When | Then |
-|-----------|-------|------|------|
-| `rejects user under 21` | User born < 21 years ago | Adding user | ValidationError |
-| `accepts user exactly 21` | User born exactly 21 years ago | Adding user | Success |
-| `accepts user over 21` | User born > 21 years ago | Adding user | Success |
-| `rejects duplicate email` | User with email exists | Adding user | DuplicateEmail |
-| `rejects empty firstname` | Request with empty firstname | Adding user | ValidationError |
-| `rejects empty surname` | Request with empty surname | Adding user | ValidationError |
-| `rejects empty email` | Request with empty email | Adding user | ValidationError |
-| `rejects invalid client` | No client with given ID | Adding user | ClientNotFound |
-
-### Credit Limit Tests
-
-| Test Case | Given | When | Then |
-|-----------|-------|------|------|
-| `VeryImportantClient has no limit` | Client type = VERY_IMPORTANT | Adding user | hasCreditLimit = false |
-| `ImportantClient gets 20000` | Client type = IMPORTANT | Adding user | creditLimit = 20000 |
-| `Regular client gets 10000` | Client type = REGULAR | Adding user | creditLimit = 10000 |
-
-### Cache Behavior Tests
-
-| Test Case | Given | When | Then |
-|-----------|-------|------|------|
-| `stores and retrieves` | Empty cache | Store item | Item retrievable |
-| `returns null for missing` | Empty cache | Get non-existent | Returns null |
-| `evicts LRU at capacity` | Cache full (A, B), A accessed | Store C | B evicted |
-| `update refreshes access` | Cache with item | Update same key | No eviction |
-| `get refreshes access` | Cache full | Get oldest item | Item not evicted next |
-
-### Cache Integration Tests
-
-| Test Case | Given | When | Then |
-|-----------|-------|------|------|
-| `cache miss fetches from DB` | User in DB, not in cache | Get user | DB called, user cached |
-| `cache hit skips DB` | User in cache | Get user | DB not called |
-| `save updates cache` | User saved | Get user | Served from cache |
-| `update propagates to cache` | User in cache | Update user | Cache has new value |
-
----
-
 ## Control Flow Diagrams
 
 ### User Addition Flow
@@ -179,14 +119,13 @@ src/
 │   │   └── CachedUserRepository.kt    # Caching decorator
 │   ├── service/
 │   │   ├── Services.kt                # Interfaces & DTOs
-│   │   ├── DefaultUserService.kt      # Implementation
+│   │   ├── UserServiceDefault.kt      # Implementation
 │   │   └── UserValidator.kt           # Validation logic
 │   └── policy/
 │       ├── CreditPolicy.kt            # Interface
 │       └── DefaultCreditPolicy.kt     # Implementation
 │
 └── test/kotlin/
-    ├── LruCacheTest.kt                # Original cache tests
     ├── dsl/
     │   ├── UserTestDSL.kt             # User test DSL
     │   └── CacheTestDSL.kt            # Cache test DSL
@@ -201,6 +140,66 @@ src/
         ├── CacheIntegrationBehaviorTest.kt
         └── ClientRepositoryBehaviorTest.kt
 ```
+
+---
+
+## Gang of Four Patterns
+
+| File | Pattern | Description |
+| ---- | ------- | ----------- |
+| `LRUCacheProvider.kt` | **Factory** | Encapsulates creation of `LRUCacheImpl` instances |
+| `CreditPolicy.kt` | **Strategy** (Interface) | Defines contract for credit limit algorithms |
+| `DefaultCreditPolicy.kt` | **Strategy** (Impl) | Implements credit logic based on `ClientType` |
+| `CachedUserRepository.kt` | **Decorator** | Wraps `UserRepository` to add transparent caching |
+| `UserServiceDefault.kt` | **Facade** | Orchestrates repositories, policies, and validators |
+| `Repositories.kt` | **Repository** | Abstracts data persistence |
+| `UserTestDSL.kt` | **Template Method** | Enforces Given-When-Then test structure |
+| `TestFixtures.kt` | **Builder** | Fluent test object construction via default params |
+| `AddUserResult` | **Sealed Class** | Type-safe exhaustive result handling |
+
+---
+
+## BDD Test Specifications
+
+### User Validation Tests
+
+| Test Case | Given | When | Then |
+|-----------|-------|------|------|
+| `rejects user under 21` | User born < 21 years ago | Adding user | ValidationError |
+| `accepts user exactly 21` | User born exactly 21 years ago | Adding user | Success |
+| `accepts user over 21` | User born > 21 years ago | Adding user | Success |
+| `rejects duplicate email` | User with email exists | Adding user | DuplicateEmail |
+| `rejects empty firstname` | Request with empty firstname | Adding user | ValidationError |
+| `rejects empty surname` | Request with empty surname | Adding user | ValidationError |
+| `rejects empty email` | Request with empty email | Adding user | ValidationError |
+| `rejects invalid client` | No client with given ID | Adding user | ClientNotFound |
+
+### Credit Limit Tests
+
+| Test Case | Given | When | Then |
+|-----------|-------|------|------|
+| `VeryImportantClient has no limit` | Client type = VERY_IMPORTANT | Adding user | hasCreditLimit = false |
+| `ImportantClient gets 20000` | Client type = IMPORTANT | Adding user | creditLimit = 20000 |
+| `Regular client gets 10000` | Client type = REGULAR | Adding user | creditLimit = 10000 |
+
+### Cache Behavior Tests
+
+| Test Case | Given | When | Then |
+|-----------|-------|------|------|
+| `stores and retrieves` | Empty cache | Store item | Item retrievable |
+| `returns null for missing` | Empty cache | Get non-existent | Returns null |
+| `evicts LRU at capacity` | Cache full (A, B), A accessed | Store C | B evicted |
+| `update refreshes access` | Cache with item | Update same key | No eviction |
+| `get refreshes access` | Cache full | Get oldest item | Item not evicted next |
+
+### Cache Integration Tests
+
+| Test Case | Given | When | Then |
+|-----------|-------|------|------|
+| `cache miss fetches from DB` | User in DB, not in cache | Get user | DB called, user cached |
+| `cache hit skips DB` | User in cache | Get user | DB not called |
+| `save updates cache` | User saved | Get user | Served from cache |
+| `update propagates to cache` | User in cache | Update user | Cache has new value |
 
 ---
 
