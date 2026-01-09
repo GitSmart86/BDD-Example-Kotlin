@@ -1,61 +1,113 @@
-# Introduction
+# BDD Example - Kotlin
 
-The test is divided into two parts, a refactoring part and an implementation part.
+A showcase of **Behavior-Driven Development (BDD)** principles applied to a Kotlin codebase, demonstrating how to write tests against interfaces rather than implementations.
 
-- The refactoring part is meant to test your ability to refactor code and apply clean code principles.
-- The implementation part is meant to test your ability to reuse existing code and solve problems.
+---
 
-> Keep in mind acronyms such as SOLID, KISS, DRY and YAGNI.
+## Background
 
-## Areas of Screening
+This project started as a timed coding exercise (refactoring + caching implementation). I approached it differently than intended - instead of just completing the tasks, I used it as an opportunity to demonstrate proper BDD architecture.
 
-This candidate assessment screens for:
+### My Starting Point
 
-1. **Refactoring Skills**: Ability to improve code structure and readability while adhering to clean code principles.
-2. **System Architecture and Optimization**: Skills in enhancing system performance, particularly through implementing caching strategies.
-3. **Adaptability**: Ability to work effectively with pre-existing codebases and adhere to set constraints.
+- **Zero Kotlin experience** - This was my first Kotlin project
+- **Minimal Java knowledge** - Understood the JVM ecosystem conceptually but hadn't written production Java
+- **Strong BDD background** - Familiar with Dave Farley's testing philosophy and Gang of Four patterns
 
-## Case Study (50 min)
+### How I Built It
 
-You're joining a team tasked with enhancing a key component of a larger payment system. This segment, developed several years ago, has seen numerous hands in its maintenance, leading to a somewhat disorganized structure and unclear naming conventions. Additionally, the code lacks robust testing, and the existing tests are not particularly clear or effective.
+I used **Claude Code** (Anthropic's AI coding assistant) to help implement the architecture. The process was collaborative:
 
-A significant challenge is the system's performance limitations, partly due to its reliance on a slow database. The current setup uses a JSON file managed by Jackson, but for the sake of this scenario, think of it as a sluggish database. To address this, your team has decided to introduce a caching layer, aiming to minimize database calls and boost overall performance.
+1. I provided the BDD principles and architectural direction (Dave Farley's approach)
+2. Claude helped translate those concepts into Kotlin idioms
+3. I guided decisions toward a more purist BDD approach when Claude suggested shortcuts
+4. We iterated on the test DSL design until it read like specifications
 
-Another major focus is on refactoring the existing codebase. The goal here is to transform it into a more coherent, manageable, and developer-friendly structure. This revamp is essential for improving maintainability and facilitating more efficient future updates or modifications.
+The result isn't perfectly polished, but it demonstrates the core BDD concepts effectively.
 
-## Tasks
+---
 
-### Task 1 - Refactoring (30 min)
+## What This Project Demonstrates
 
-Refactor the codebase in `/src/main/kotlin/com/speechify` to improve its structure and readability. Ensure that the code is clean, concise, and open to future modifications. You may add or remove files as needed. However, the code must remain functional and retain its original behavior. Feel free to add tests to enhance code coverage and verify the functionality of your code if you think it's necessary. However, be mindful of your time allocation, as dedicating too much effort to testing may not contribute to your overall evaluation. Keep in mind acronyms such as SOLID, KISS, DRY and YAGNI and your overall goal of the use case to not run into one way door decisions.
+### BDD Test Architecture
 
-### Task 2 - Caching (20 min)
+```
+Test Cases (declarative, behavior-focused)
+         │
+         ▼
+    Test DSL (semantic abstraction layer)
+         │
+         ▼
+  Protocol Drivers (in-memory implementations)
+         │
+         ▼
+   System Under Test
+```
 
-You can find within the `/src/main/kotlin/com/speechify/LRUCache.kt` an LRU Cache, you need not implement this file or work on its tests. Just assume that it is already implemented and consume it directly. The goal is to integrate this cache into the data layer to minimize database calls and improve system performance. Ensure that any changes made to a data entry are updated in the cache, maintaining data consistency. This way, the cache can serve as a quick and efficient data retrieval mechanism, reducing the system's reliance on the slow database.
+**Key principle**: Tests are stable; implementations are volatile. When you test behavior through interfaces, refactoring the implementation doesn't break your tests.
 
-#### Example Implementation
+### Design Patterns Applied
 
-When a user is added or updated, this change is first written to the database. Simultaneously, the corresponding entry in the LRU cache is either updated or, if it's not already in the cache, added to the cache.
+| Pattern | Where | Why |
+|---------|-------|-----|
+| **Factory** | `LRUCacheProvider` | Hide implementation details |
+| **Strategy** | `CreditPolicy` | Swappable business rules |
+| **Decorator** | `CachedUserRepository` | Transparent caching layer |
+| **Repository** | `UserRepository` | Abstract data access |
+| **Sealed Class** | `AddUserResult` | Exhaustive result handling |
 
-Let's say a user, Alice, updates her firstname. Here's what happens:
+### Test Coverage
 
-1. Alice's new firstname is saved in the database.
-2. The cache checks if Alice's user data is currently stored.
-   1. If yes, it updates the entry with the new firstname.
-   2. If no, it adds a new entry for Alice's user with the updated firstname.
-3. Now, when another part of your system requests Alice's users, it first checks the cache a.e. `getAllUsers()`. Since the cache has the most recent data, it serves Alice's updated user with the new firstname, without needing to access the database.
+| Test Suite | Tests | Focus |
+|------------|-------|-------|
+| LruCacheTest | 9 | Cache mechanics |
+| UserValidationBehaviorTest | 8 | Business rules |
+| CreditLimitBehaviorTest | 3 | Credit policies |
+| CacheBehaviorTest | 6 | Cache behavior |
+| CacheIntegrationBehaviorTest | 5 | Cache + repository |
+| ClientRepositoryBehaviorTest | 5 | Data access |
+| **Total** | **36** | |
 
-This approach ensures data consistency and efficiency, as the most accessed data is quickly retrievable from the cache, and changes are immediately reflected without redundant database queries.
+---
 
-## Development Guidelines
+## Running the Tests
 
-### Do's
+```bash
+# Requires Java 17+
+./gradlew test
+```
 
-- Write clean, maintainable, and well-documented code and follow the best practices and coding standards.
-- You are free to use any official documentation or language references.
-- You can use the debugging tools and native IDE features (only standard Auto-Completion)
+---
 
-### Don'ts
+## Project Structure
 
-- DO NOT use any external libraries for the implementation.
-- DO NOT visit direct blogs or articles related to implementation of the tasks.
+```
+├── README.md                      # This file
+├── ARCHITECTURE.md                # Detailed architecture guide
+├── 1-Dave-Farley-BDD-principles.md  # BDD philosophy reference
+│
+├── src/main/kotlin/com/speechify/
+│   ├── domain/                    # Immutable domain models
+│   ├── repository/                # Data access layer
+│   ├── service/                   # Business logic
+│   └── policy/                    # Strategy implementations
+│
+└── src/test/kotlin/
+    ├── dsl/                       # Test DSL (Given/When/Then)
+    ├── drivers/                   # In-memory test doubles
+    ├── fixtures/                  # Test data builders
+    └── behavior/                  # BDD test specifications
+```
+
+---
+
+## Further Reading
+
+- [ARCHITECTURE.md](ARCHITECTURE.md) - Detailed patterns and control flow diagrams
+- [1-Dave-Farley-BDD-principles.md](1-Dave-Farley-BDD-principles.md) - The BDD philosophy behind this approach
+
+---
+
+## Acknowledgments
+
+Built with assistance from **Claude Code** (Claude Opus 4.5) - demonstrating how AI can help implement architectural patterns when given clear principles and direction.
