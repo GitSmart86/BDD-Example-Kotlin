@@ -1,8 +1,8 @@
 package dsl
 
-import com.speechify.CacheLimitsConfig
-import com.speechify.LRUCacheInterface
-import com.speechify.LRUCacheProvider
+import com.speechify.cache.CacheLimitsConfig
+import com.speechify.cache.LRUCacheInterface
+import com.speechify.cache.LRUCacheProvider
 import org.junit.jupiter.api.Assertions.*
 
 class CacheTestDSL<T> {

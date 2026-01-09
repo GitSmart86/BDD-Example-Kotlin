@@ -1,6 +1,6 @@
 package com.speechify.repository
 
-import com.speechify.LRUCacheInterface
+import com.speechify.cache.LRUCacheInterface
 import com.speechify.domain.User
 
 /**

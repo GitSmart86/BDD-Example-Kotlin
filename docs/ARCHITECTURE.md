@@ -105,10 +105,10 @@ flowchart LR
 ```
 src/
 ├── main/kotlin/com/speechify/
-│   ├── CacheLimitsConfig.kt           # Cache configuration
-│   ├── LRUCacheInterface.kt           # Cache interface
-│   ├── LRUCacheProvider.kt            # Cache factory
 │   ├── cache/
+│   │   ├── CacheLimitsConfig.kt       # Cache configuration
+│   │   ├── LRUCacheInterface.kt       # Cache interface
+│   │   ├── LRUCacheProvider.kt        # Cache factory
 │   │   └── LRUCacheImpl.kt            # LRU implementation
 │   ├── domain/
 │   │   └── Models.kt                  # User, Client, ClientType
