@@ -6,8 +6,6 @@ This is a showcase of **Behavior-Driven Development (BDD)** principles applied t
 
 This repo demonstrates how to write "Given/When/Then" tests against unimplemented interfaces rather than writing ad-hoc unit tests against pre-existing implementations. You can recycle this structure for any project to remove most conventional codebase development and scaling issues that teams encounter.
 
----
-
 ## Background
 
 `Context`
