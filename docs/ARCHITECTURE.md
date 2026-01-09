@@ -119,7 +119,7 @@ src/
 │   │   └── CachedUserRepository.kt    # Caching decorator
 │   ├── service/
 │   │   ├── Services.kt                # Interfaces & DTOs
-│   │   ├── UserServiceDefault.kt      # Implementation
+│   │   ├── UserDefault.kt      # Implementation
 │   │   └── UserValidator.kt           # Validation logic
 │   └── policy/
 │       ├── CreditPolicy.kt            # Interface
@@ -151,7 +151,7 @@ src/
 | `CreditPolicy.kt` | **Strategy** (Interface) | Defines contract for credit limit algorithms |
 | `DefaultCreditPolicy.kt` | **Strategy** (Impl) | Implements credit logic based on `ClientType` |
 | `CachedUserRepository.kt` | **Decorator** | Wraps `UserRepository` to add transparent caching |
-| `UserServiceDefault.kt` | **Facade** | Orchestrates repositories, policies, and validators |
+| `UserDefault.kt` | **Facade** | Orchestrates repositories, policies, and validators |
 | `Repositories.kt` | **Repository** | Abstracts data persistence |
 | `UserTestDSL.kt` | **Template Method** | Enforces Given-When-Then test structure |
 | `TestFixtures.kt` | **Builder** | Fluent test object construction via default params |

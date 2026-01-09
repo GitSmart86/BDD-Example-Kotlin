@@ -6,7 +6,7 @@ import com.speechify.repository.ClientRepository
 import com.speechify.repository.UserRepository
 import java.util.UUID
 
-class UserServiceDefault(
+class UserDefault(
     private val userRepository: UserRepository,
     private val clientRepository: ClientRepository,
     private val creditPolicy: CreditPolicy,
