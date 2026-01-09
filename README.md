@@ -12,7 +12,7 @@ Hello there! This is a showcase of **Behavior-Driven Development (BDD)** princip
 - **Minimal Java knowledge** - I used the JVM ecosystem way back in uni. days but hadn't written Java since then.
 - **Strong BDD background** - Familiar with Dave Farley's testing philosophy and Gang of Four patterns. This builds on Kent Beck, Bob Martin, and Robert Fowler's work.
 
-### How I built it in 90 min
+### How I built it in ~100 min
 
 I used Claude Code to help implement the architecture. The process was collaborative:
 
@@ -21,95 +21,6 @@ I used Claude Code to help implement the architecture. The process was collabora
 3. I fed Claude baby steps to stay on a purist BDD approach and held it's hand when it tried to take shortcuts
 4. We just iterated on the test DSL design and kept cleaning up until the codebase read like specifications.
 5. Once you reach the desired functionality and pass tests, then ensure that you have async optimizations, clean naming, and good docs.
-
----
-
-## What This Project Demonstrates
-
-### BDD Test Architecture
-
-```
-Test Cases (declarative, behavior-focused)
-         │
-         ▼
-    Test DSL (semantic abstraction layer)
-         │
-         ▼
-  Protocol Drivers (in-memory implementations)
-         │
-         ▼
-   System Under Test
-```
-
-**Key principle**: Tests are stable; implementations are volatile. When you test behavior through interfaces, refactoring the implementation doesn't break your tests.
-
-### Design Patterns Applied
-
-| Pattern | Where | Why |
-|---------|-------|-----|
-| **Factory** | `cache.Provider` | Hide implementation details |
-| **Strategy** | `UserCredits` | Swappable business rules |
-| **Decorator** | `CachedUser` | Transparent caching layer |
-| **Repository** | `UserRepository` | Abstract data access |
-| **Sealed Class** | `AddUserResult` | Exhaustive result handling |
-
-### Test Coverage
-
-| Test Suite | Tests | Focus |
-|------------|-------|-------|
-| LruCacheTest | 9 | Cache mechanics |
-| UserValidationBehaviorTest | 8 | Business rules |
-| CreditLimitBehaviorTest | 3 | Credit policies |
-| CacheBehaviorTest | 6 | Cache behavior |
-| CacheIntegrationBehaviorTest | 5 | Cache + repository |
-| ClientRepositoryBehaviorTest | 5 | Data access |
-| **Total** | **36** | |
-
----
-
-## Production Features
-
-### Async/Coroutine API
-
-All service and repository methods are `suspend` functions, designed for non-blocking I/O:
-
-```kotlin
-// All operations are coroutine-safe
-val service = BDD.createUserService()
-
-// Use within a coroutine scope
-runBlocking {
-    val result = service.addUser(request)
-    val user = service.getUserByEmail("john@example.com")
-}
-```
-
-### Thread Safety
-
-- **LRU Cache**: Uses `Mutex` for coroutine-safe concurrent access
-- **File I/O**: Runs on `Dispatchers.IO` for non-blocking operations
-- **Safe for concurrent coroutines**: No shared mutable state without synchronization
-
-### Logging (SLF4J + Logback)
-
-Structured logging throughout with appropriate levels:
-
-| Level | Usage |
-|-------|-------|
-| `INFO` | User created, user updated |
-| `WARN` | Validation failures, client not found |
-| `ERROR` | Save failures |
-| `DEBUG` | Cache hits/misses |
-
-### Configuration
-
-```kotlin
-val service = BDD.createUserService(
-    cacheSize = 100,           // LRU cache capacity
-    dbPath = "path/to/db.json", // Data file location
-    minimumAge = 21            // Age validation threshold
-)
-```
 
 ---
 
