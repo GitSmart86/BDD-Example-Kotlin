@@ -40,7 +40,6 @@ class UserDefault(
 
         // 4. Calculate credit limit based on client type
         val creditLimit = creditPolicy.calculateCreditLimit(client)
-        logger.debug("Credit limit calculated: hasLimit={}, amount={}", creditLimit.hasLimit, creditLimit.amount)
 
         // 5. Create and save the user
         val user = User(
@@ -66,7 +65,6 @@ class UserDefault(
     }
 
     override suspend fun updateUser(user: User): Boolean {
-        logger.debug("Updating user: id={}", user.id)
         return userRepository.update(user).also { success ->
             if (success) {
                 logger.info("User updated: id={}", user.id)
@@ -77,12 +75,10 @@ class UserDefault(
     }
 
     override suspend fun getUserByEmail(email: String): User? {
-        logger.debug("Looking up user by email: {}", email)
         return userRepository.findByEmail(email)
     }
 
     override suspend fun getAllUsers(): List<User> {
-        logger.debug("Fetching all users")
         return userRepository.findAll()
     }
 }

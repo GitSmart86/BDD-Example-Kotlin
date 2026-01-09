@@ -34,7 +34,6 @@ class CachedUser(
     override suspend fun findById(id: String): User? {
         // Try cache first
         cache.get(id)?.let {
-            logger.debug("Cache HIT for user id={}", id)
             return it
         }
 
@@ -51,7 +50,6 @@ class CachedUser(
         // Check if we have the ID cached for this email
         emailToIdCache.get(email)?.let { id ->
             cache.get(id)?.let {
-                logger.debug("Cache HIT for user email={}", email)
                 return it
             }
         }
@@ -67,7 +65,6 @@ class CachedUser(
 
     override suspend fun findAll(): List<User> {
         // For findAll, we always go to delegate but cache the results
-        logger.debug("Loading all users (bypassing cache)")
         return delegate.findAll().also { users ->
             users.forEach { user ->
                 cache.set(user.id, user)
@@ -102,7 +99,6 @@ class CachedUser(
     override suspend fun existsByEmail(email: String): Boolean {
         // Check email cache first
         if (emailToIdCache.get(email) != null) {
-            logger.debug("Cache HIT for email existence check: {}", email)
             return true
         }
         // Fall back to delegate

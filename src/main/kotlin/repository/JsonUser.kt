@@ -37,7 +37,6 @@ class JsonUser(
 
     override suspend fun findAll(): List<User> = withContext(Dispatchers.IO) {
         try {
-            logger.debug("Loading users from {}", dbFilePath)
             val dbFile = File(dbFilePath)
             if (!dbFile.exists()) {
                 logger.warn("Database file not found: {}", dbFilePath)

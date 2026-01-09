@@ -67,6 +67,52 @@ Test Cases (declarative, behavior-focused)
 
 ---
 
+## Production Features
+
+### Async/Coroutine API
+
+All service and repository methods are `suspend` functions, designed for non-blocking I/O:
+
+```kotlin
+// All operations are coroutine-safe
+val service = BDD.createUserService()
+
+// Use within a coroutine scope
+runBlocking {
+    val result = service.addUser(request)
+    val user = service.getUserByEmail("john@example.com")
+}
+```
+
+### Thread Safety
+
+- **LRU Cache**: Uses `Mutex` for coroutine-safe concurrent access
+- **File I/O**: Runs on `Dispatchers.IO` for non-blocking operations
+- **Safe for concurrent coroutines**: No shared mutable state without synchronization
+
+### Logging (SLF4J + Logback)
+
+Structured logging throughout with appropriate levels:
+
+| Level | Usage |
+|-------|-------|
+| `INFO` | User created, user updated |
+| `WARN` | Validation failures, client not found |
+| `ERROR` | Save failures |
+| `DEBUG` | Cache hits/misses |
+
+### Configuration
+
+```kotlin
+val service = BDD.createUserService(
+    cacheSize = 100,           // LRU cache capacity
+    dbPath = "path/to/db.json", // Data file location
+    minimumAge = 21            // Age validation threshold
+)
+```
+
+---
+
 ## Further Reading
 
 - [ARCHITECTURE.md](docs/ARCHITECTURE.md) - Detailed patterns and control flow diagrams
