@@ -3,7 +3,7 @@ package com.speechify.policy
 import com.speechify.domain.Client
 import com.speechify.domain.ClientType
 
-class DefaultCreditPolicy : CreditPolicy {
+class UserCreditsDefault : UserCredits {
 
     companion object {
         private const val IMPORTANT_CLIENT_LIMIT = 20_000.0

@@ -2,7 +2,7 @@ package com.speechify.policy
 
 import com.speechify.domain.Client
 
-interface CreditPolicy {
+interface UserCredits {
     fun calculateCreditLimit(client: Client): CreditLimit
 }
 

@@ -47,7 +47,7 @@ Test Cases (declarative, behavior-focused)
 | Pattern | Where | Why |
 |---------|-------|-----|
 | **Factory** | `LRUCacheProvider` | Hide implementation details |
-| **Strategy** | `CreditPolicy` | Swappable business rules |
+| **Strategy** | `UserCredits` | Swappable business rules |
 | **Decorator** | `CachedUserRepository` | Transparent caching layer |
 | **Repository** | `UserRepository` | Abstract data access |
 | **Sealed Class** | `AddUserResult` | Exhaustive result handling |

@@ -1,1 +1,1 @@
-rootProject.name = "platform-live-coding-kotlin-test"
+rootProject.name = "bdd-example-kotlin"

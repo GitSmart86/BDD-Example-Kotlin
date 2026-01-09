@@ -1,7 +1,7 @@
 package com.speechify.service
 
 import com.speechify.domain.User
-import com.speechify.policy.CreditPolicy
+import com.speechify.policy.UserCredits
 import com.speechify.repository.ClientRepository
 import com.speechify.repository.UserRepository
 import java.util.UUID
@@ -9,7 +9,7 @@ import java.util.UUID
 class UserDefault(
     private val userRepository: UserRepository,
     private val clientRepository: ClientRepository,
-    private val creditPolicy: CreditPolicy,
+    private val creditPolicy: UserCredits,
     private val validator: UserValidator = UserValidator()
 ) : UserService {
 

@@ -4,8 +4,8 @@ import com.speechify.domain.Client
 import com.speechify.domain.ClientType
 import com.speechify.domain.User
 import com.speechify.policy.CreditLimit
-import com.speechify.policy.CreditPolicy
-import com.speechify.policy.DefaultCreditPolicy
+import com.speechify.policy.UserCredits
+import com.speechify.policy.UserCreditsDefault
 import com.speechify.service.AddUserRequest
 import com.speechify.service.AddUserResult
 import com.speechify.service.UserDefault
@@ -31,7 +31,7 @@ class UserTestDSL {
     }
 
     fun withUserDefault() {
-        val creditPolicy = DefaultCreditPolicy()
+        val creditPolicy = UserCreditsDefault()
         val validator = UserValidator()
         this.userService = UserDefault(
             userRepository = userRepository,

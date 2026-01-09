@@ -2,7 +2,7 @@ package behavior
 
 import com.speechify.domain.ClientType
 import com.speechify.policy.CreditLimit
-import com.speechify.policy.CreditPolicy
+import com.speechify.policy.UserCredits
 import com.speechify.service.AddUserRequest
 import dsl.UserTestDSL
 import fixtures.TestFixtures

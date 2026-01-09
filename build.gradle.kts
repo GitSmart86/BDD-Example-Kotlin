@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") version "1.9.0"
 }
 
-group = "com.speechify"
+group = "com.bdd-is-nice"
 version = "1.0-SNAPSHOT"
 
 repositories {

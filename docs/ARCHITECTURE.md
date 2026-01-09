@@ -32,7 +32,7 @@ flowchart TB
         CR[ClientRepository<br/>interface]
         LC[LRUCache&lt;T&gt;<br/>interface]
         US[UserService<br/>interface]
-        CP[CreditPolicy<br/>interface]
+        CP[UserCredits<br/>interface]
     end
 
     subgraph IMPL["IMPLEMENTATION LAYER"]
@@ -40,7 +40,7 @@ flowchart TB
         JCR[JsonClientRepository]
         LCI[LRUCacheImpl&lt;T&gt;]
         CUR[CachedUserRepo<br/>decorator]
-        DCP[DefaultCreditPolicy]
+        DCP[UserCreditsDefault]
     end
 
     DB[(db.json<br/>Data Storage)]
@@ -122,8 +122,8 @@ src/
 │   │   ├── UserDefault.kt      # Implementation
 │   │   └── UserValidator.kt           # Validation logic
 │   └── policy/
-│       ├── CreditPolicy.kt            # Interface
-│       └── DefaultCreditPolicy.kt     # Implementation
+│       ├── UserCredits.kt            # Interface
+│       └── UserCreditsDefault.kt     # Implementation
 │
 └── test/kotlin/
     ├── dsl/
@@ -148,8 +148,8 @@ src/
 | File | Pattern | Description |
 | ---- | ------- | ----------- |
 | `LRUCacheProvider.kt` | **Factory** | Encapsulates creation of `LRUCacheImpl` instances |
-| `CreditPolicy.kt` | **Strategy** (Interface) | Defines contract for credit limit algorithms |
-| `DefaultCreditPolicy.kt` | **Strategy** (Impl) | Implements credit logic based on `ClientType` |
+| `UserCredits.kt` | **Strategy** (Interface) | Defines contract for credit limit algorithms |
+| `UserCreditsDefault.kt` | **Strategy** (Impl) | Implements credit logic based on `ClientType` |
 | `CachedUserRepository.kt` | **Decorator** | Wraps `UserRepository` to add transparent caching |
 | `UserDefault.kt` | **Facade** | Orchestrates repositories, policies, and validators |
 | `Repositories.kt` | **Repository** | Abstracts data persistence |
