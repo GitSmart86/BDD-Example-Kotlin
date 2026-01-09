@@ -44,29 +44,13 @@ Clear separation of intent vs mechanism
 
 ## Structure of the DSL and Protocol Drivers
 
-┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐
-│ Test Case │   │ Test Case │   │ Test Case │   │ Test Case │   │ Test Case │   │ Test Case │
-└─────┬─────┘   └─────┬─────┘   └─────┬─────┘   └─────┬─────┘   └─────┬─────┘   └─────┬─────┘
-      │               │               │               │               │               │
-      └───────────────┴───────────────┼───────────────┴───────────────┴───────────────┘
-                                      │
-                                      ▼
-                              ┌─────────────┐
-                              │     DSL     │
-                              │ (Test API)  │
-                              └──────┬──────┘
-                                     │
-               ┌─────────────────────┼──────────────────────┐
-               │                     │                      │
-               ▼                     ▼                      ▼
-       ┌─────────────────┐   ┌─────────────────┐   ┌─────────────────┐
-       │ Protocol Driver │   │ Protocol Driver │   │ Protocol Driver │
-       │   (e.g. HTTP)   │   │   (e.g. MQ)     │   │   (e.g. Binary) │
-       └────────┬────────┘   └────────┬────────┘   └────────┬────────┘
-                │                     │                     │
-                └─────────────────────┼─────────────────────┘
-                                      │
-                                      ▼
-                           ┌──────────────────────┐
-                           │ System Under Test    │
-                           └──────────────────────┘
+```mermaid
+flowchart TB
+    T1[Test Case 1] & T2[Test Case 2] & T3[Test Case 3] & T4[Test Case 4] & T5[Test Case 5] & T6[Test Case 6] --> DSL[DSL<br/>Test API]
+
+    DSL --> D1[Protocol Driver<br/>HTTP]
+    DSL --> D2[Protocol Driver<br/>MQ]
+    DSL --> D3[Protocol Driver<br/>Binary]
+
+    D1 & D2 & D3 --> SUT[System Under Test]
+```
