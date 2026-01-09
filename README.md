@@ -1,6 +1,6 @@
 # BDD Example - Kotlin
 
-**Hello there!**
+`Hello there!`
 
 This is a showcase of **Behavior-Driven Development (BDD)** principles applied to a user management service in Kotlin.
 
@@ -10,14 +10,14 @@ This repo demonstrates how to write "Given/When/Then" tests against unimplemente
 
 ## Background
 
-### Context
+`Context`
 
-- **Kotlin skills = 1/10**  -  First Kotlin project ever (not as cool as Rust, but more fancy than Java).
-- **Java skills = 3/10**  -  Hadn't used JVM ecosystem since back in uni. days.
-- **BDD skills = Good/10**  -  Familiar with Dave Farley, Kent Becker, etc.
-- **AI skills = Great/10**  -  Very familiar with Claude Code + VS Code.
+- Kotlin = 1/10  -  First Kotlin project ever (not as cool as Rust, but more fancy than Java).
+- Java = 3/10  -  Hadn't used JVM ecosystem since back in uni. days.
+- BDD = Good/10  -  Familiar with Dave Farley, Kent Becker, etc.
+- AI = Great/10  -  Very familiar with Claude Code + VS Code.
 
-### Process with Claude ~100 min
+`Process with Claude ~100 min`
 
 Used Claude Code to implement & refactor the architecture following this procedure:
 
