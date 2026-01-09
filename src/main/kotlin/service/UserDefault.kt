@@ -7,6 +7,17 @@ import repository.ClientRepository
 import repository.UserRepository
 import java.util.UUID
 
+/**
+ * Default implementation of [UserService].
+ *
+ * Orchestrates user creation with validation, client lookup,
+ * credit policy application, and persistence.
+ *
+ * @param userRepository For user persistence
+ * @param clientRepository For client lookup
+ * @param creditPolicy Strategy for calculating credit limits
+ * @param validator For request validation
+ */
 class UserDefault(
     private val userRepository: UserRepository,
     private val clientRepository: ClientRepository,

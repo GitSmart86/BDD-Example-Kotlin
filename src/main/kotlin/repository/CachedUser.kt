@@ -7,10 +7,14 @@ import kotlinx.coroutines.sync.withLock
 import org.slf4j.LoggerFactory
 
 /**
- * Decorator that adds caching to any UserRepository implementation.
- * Uses the cache-aside (lazy loading) pattern for reads
- * and write-through pattern for writes.
- * Coroutine-safe implementation.
+ * Decorator that adds caching to any [UserRepository] implementation.
+ *
+ * Uses cache-aside (lazy loading) for reads and write-through for writes.
+ * Coroutine-safe with Mutex-protected email-to-id mapping.
+ *
+ * @param delegate The underlying repository to cache
+ * @param cache LRU cache for User objects by id
+ * @param emailToIdCache Secondary cache mapping email to user id
  */
 class CachedUser(
     private val delegate: UserRepository,

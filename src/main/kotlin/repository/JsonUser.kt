@@ -15,6 +15,14 @@ import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+/**
+ * JSON file-based implementation of [UserRepository].
+ *
+ * Persists users to a JSON file with non-blocking I/O via Dispatchers.IO.
+ *
+ * @param dbFilePath Path to the JSON database file
+ * @param clientRepository Repository for resolving client references
+ */
 class JsonUser(
     private val dbFilePath: String = "src/main/kotlin/data/db.json",
     private val clientRepository: ClientRepository = JsonClient()

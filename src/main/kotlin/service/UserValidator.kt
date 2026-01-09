@@ -3,9 +3,18 @@ package service
 import java.time.LocalDate
 import java.time.Period
 
+/**
+ * Validates user creation requests.
+ *
+ * Rules: firstname, surname, email must be non-blank;
+ * user must meet minimum age requirement if dateOfBirth provided.
+ *
+ * @param minimumAge Required age threshold (default: 21)
+ */
 class UserValidator(
     private val minimumAge: Int = 21
 ) {
+    /** @return ValidationError if invalid, null if valid */
     fun validate(request: AddUserRequest): AddUserResult.ValidationError? {
         if (request.firstname.isBlank()) {
             return AddUserResult.ValidationError("Firstname is required")

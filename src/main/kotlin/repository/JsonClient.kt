@@ -10,6 +10,13 @@ import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
 import java.io.File
 
+/**
+ * JSON file-based implementation of [ClientRepository].
+ *
+ * Reads client data from a JSON file with non-blocking I/O.
+ *
+ * @param dbFilePath Path to the JSON database file
+ */
 class JsonClient(
     private val dbFilePath: String = "src/main/kotlin/data/db.json"
 ) : ClientRepository {
