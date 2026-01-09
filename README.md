@@ -1,8 +1,11 @@
-# Hello there
+# BDD Example - Kotlin
 
-This is a showcase of **Behavior-Driven Development (BDD)** principles applied to a user management service in Kotlin.
+`Hello there!`
 
-This repo demonstrates how to write "Given/When/Then" tests against unimplemented interfaces rather than writing ad-hoc unit tests against pre-existing implementations. You can recycle this structure for any project to remove most conventional codebase development and scaling issues that teams encounter.
+This is a showcase of how anyone can use **Behavior-Driven Development (BDD)** principles applied to a user management service in Kotlin.
+
+- Write "Given/When/Then" tests against unimplemented interfaces, rather than writing ad-hoc unit tests against pre-existing implementations.
+- Then, reduce, reuse, and recycle this structure for any future project to remove most conventional codebase development and scaling issues.
 
 ## Background
 
