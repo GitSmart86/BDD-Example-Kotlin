@@ -38,5 +38,5 @@ Then BAM, you've got a stable feature release.
 
 ## Further Reading
 
+- [Dave-Farley-BDD-principles.md](docs/Dave-Farley-BDD-principles.md) - The BDD philosophy behind this approach
 - [ARCHITECTURE.md](docs/ARCHITECTURE.md) - Detailed patterns and control flow diagrams
-- [1-Dave-Farley-BDD-principles.md](docs/1-Dave-Farley-BDD-principles.md) - The BDD philosophy behind this approach

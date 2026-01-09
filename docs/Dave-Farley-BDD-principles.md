@@ -1,6 +1,6 @@
 # Dave Farely's BDD Architecture Explained
 
-## Test Cases
+`Test Cases`
 
 Declarative, intent-focused specifications.
 
@@ -34,7 +34,7 @@ Tests are stable; protocol drivers are volatile.
 
 Behavior is tested, not implementation details.
 
-## Enable
+`Enable`
 
 Readable tests
 
