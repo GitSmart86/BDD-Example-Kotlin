@@ -8,7 +8,7 @@ import com.speechify.domain.User
  * Uses the cache-aside (lazy loading) pattern for reads
  * and write-through pattern for writes.
  */
-class CachedUserRepository(
+class CachedUser(
     private val delegate: UserRepository,
     private val cache: LRUCacheInterface<User>,
     private val emailToIdCache: LRUCacheInterface<String> = createSimpleCache()

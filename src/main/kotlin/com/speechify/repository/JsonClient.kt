@@ -7,7 +7,7 @@ import com.speechify.domain.Client
 import com.speechify.domain.ClientType
 import java.io.File
 
-class JsonClientRepository(
+class JsonClient(
     private val dbFilePath: String = "src/main/kotlin/com/speechify/db.json"
 ) : ClientRepository {
 

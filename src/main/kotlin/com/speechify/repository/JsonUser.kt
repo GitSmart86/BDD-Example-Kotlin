@@ -12,9 +12,9 @@ import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class JsonUserRepository(
+class JsonUser(
     private val dbFilePath: String = "src/main/kotlin/com/speechify/db.json",
-    private val clientRepository: ClientRepository = JsonClientRepository()
+    private val clientRepository: ClientRepository = JsonClient()
 ) : UserRepository {
 
     private val objectMapper = ObjectMapper().apply {

@@ -36,8 +36,8 @@ flowchart TB
     end
 
     subgraph IMPL["IMPLEMENTATION LAYER"]
-        JUR[JsonUserRepository]
-        JCR[JsonClientRepository]
+        JUR[JsonUser]
+        JCR[JsonClient]
         LCI[LRUCacheImpl&lt;T&gt;]
         CUR[CachedUserRepo<br/>decorator]
         DCP[UserCreditsDefault]
@@ -113,10 +113,10 @@ src/
 │   ├── domain/
 │   │   └── Models.kt                  # User, Client, ClientType
 │   ├── repository/
-│   │   ├── Repositories.kt            # Interfaces
-│   │   ├── JsonUserRepository.kt      # JSON persistence
-│   │   ├── JsonClientRepository.kt    # JSON persistence
-│   │   └── CachedUserRepository.kt    # Caching decorator
+│   │   ├── Interfaces.kt              # Interfaces
+│   │   ├── JsonUser.kt      # JSON persistence
+│   │   ├── JsonClient.kt    # JSON persistence
+│   │   └── CachedUser.kt    # Caching decorator
 │   ├── service/
 │   │   ├── UserMisc.kt                # Interfaces & DTOs
 │   │   ├── UserDefault.kt      # Implementation
@@ -150,9 +150,9 @@ src/
 | `LRUCacheProvider.kt` | **Factory** | Encapsulates creation of `LRUCacheImpl` instances |
 | `UserCredits.kt` | **Strategy** (Interface) | Defines contract for credit limit algorithms |
 | `UserCreditsDefault.kt` | **Strategy** (Impl) | Implements credit logic based on `ClientType` |
-| `CachedUserRepository.kt` | **Decorator** | Wraps `UserRepository` to add transparent caching |
+| `CachedUser.kt` | **Decorator** | Wraps `UserRepository` to add transparent caching |
 | `UserDefault.kt` | **Facade** | Orchestrates repositories, policies, and validators |
-| `Repositories.kt` | **Repository** | Abstracts data persistence |
+| `Interfaces.kt` | **Repository** | Abstracts data persistence |
 | `UserTestDSL.kt` | **Template Method** | Enforces Given-When-Then test structure |
 | `TestFixtures.kt` | **Builder** | Fluent test object construction via default params |
 | `AddUserResult` | **Sealed Class** | Type-safe exhaustive result handling |
