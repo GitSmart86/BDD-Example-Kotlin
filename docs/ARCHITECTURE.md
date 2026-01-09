@@ -118,7 +118,7 @@ src/
 │   │   ├── JsonClientRepository.kt    # JSON persistence
 │   │   └── CachedUserRepository.kt    # Caching decorator
 │   ├── service/
-│   │   ├── Services.kt                # Interfaces & DTOs
+│   │   ├── UserMisc.kt                # Interfaces & DTOs
 │   │   ├── UserDefault.kt      # Implementation
 │   │   └── UserValidator.kt           # Validation logic
 │   └── policy/
