@@ -48,11 +48,10 @@ class JsonClient(
     }
 
     private fun mapToClient(node: ObjectNode): Client {
-        val name = node.get("name").asText()
         return Client(
             id = node.get("id").asText(),
-            name = name,
-            type = ClientType.fromName(name)
+            name = node.get("name").asText(),
+            type = ClientType.valueOf(node.get("type").asText())
         )
     }
 }

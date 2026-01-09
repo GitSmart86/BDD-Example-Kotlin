@@ -144,16 +144,16 @@ src/
 │   │   └── Models.kt                  # User, Client, ClientType
 │   ├── repository/
 │   │   ├── Interfaces.kt              # Interfaces
-│   │   ├── JsonUser.kt      # JSON persistence
-│   │   ├── JsonClient.kt    # JSON persistence
-│   │   └── CachedUser.kt    # Caching decorator
+│   │   ├── JsonUser.kt                # JSON persistence
+│   │   ├── JsonClient.kt              # JSON persistence
+│   │   └── CachedUser.kt              # Caching decorator
 │   ├── service/
 │   │   ├── UserMisc.kt                # Interfaces & DTOs
-│   │   ├── UserDefault.kt      # Implementation
+│   │   ├── UserDefault.kt             # Implementation
 │   │   └── UserValidator.kt           # Validation logic
 │   └── policy/
-│       ├── UserCredits.kt            # Interface
-│       └── UserCreditsDefault.kt     # Implementation
+│       ├── UserCredits.kt             # Interface
+│       └── UserCreditsDefault.kt      # Implementation
 │
 └── test/kotlin/
     ├── dsl/
@@ -163,7 +163,7 @@ src/
     │   └── InMemoryTestDriver.kt      # Test doubles
     ├── fixtures/
     │   └── TestFixtures.kt            # Test data builders
-    └── behavior/
+    └── tests/
         ├── UserValidationBehaviorTest.kt
         ├── CreditLimitBehaviorTest.kt
         ├── CacheBehaviorTest.kt

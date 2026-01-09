@@ -102,11 +102,10 @@ class JsonUser(
             // The JSON stores client as an embedded object, not just clientId
             val clientNode = node.get("client") as? ObjectNode
             val client = if (clientNode != null) {
-                val clientName = clientNode.get("name").asText()
                 Client(
                     id = clientNode.get("id").asText(),
-                    name = clientName,
-                    type = ClientType.fromName(clientName)
+                    name = clientNode.get("name").asText(),
+                    type = ClientType.valueOf(clientNode.get("type").asText())
                 )
             } else {
                 // Fallback: try clientId field and lookup

@@ -22,13 +22,5 @@ data class Client(
 enum class ClientType {
     VERY_IMPORTANT,
     IMPORTANT,
-    REGULAR;
-
-    companion object {
-        fun fromName(name: String): ClientType = when (name) {
-            "VeryImportantClient" -> VERY_IMPORTANT
-            "ImportantClient" -> IMPORTANT
-            else -> REGULAR
-        }
-    }
+    REGULAR
 }
