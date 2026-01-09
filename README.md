@@ -29,12 +29,12 @@ Used Claude Code to implement & refactor the architecture following this procedu
 
 Then BAM, you've got a stable feature release.
 
+---
+
 `Unsolicited AI Agent Recommendation:`
 
 - Claude Code is the Toyota of AI agents. It's backed by Amazon, AWS, and Anthropic. That is serious workplace culture right there.
 - Let other people have fun driving Cursor (Audi), Augment AI (Mazda), or JetBrains (BMW).
-
----
 
 ## Further Reading
 
