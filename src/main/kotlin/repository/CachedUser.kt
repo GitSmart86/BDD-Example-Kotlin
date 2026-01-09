@@ -2,11 +2,14 @@ package repository
 
 import cache.Interface as CacheInterface
 import domain.User
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 /**
  * Decorator that adds caching to any UserRepository implementation.
  * Uses the cache-aside (lazy loading) pattern for reads
  * and write-through pattern for writes.
+ * Coroutine-safe implementation.
  */
 class CachedUser(
     private val delegate: UserRepository,
@@ -17,14 +20,15 @@ class CachedUser(
     companion object {
         private fun createSimpleCache(): CacheInterface<String> {
             return object : CacheInterface<String> {
+                private val mutex = Mutex()
                 private val map = mutableMapOf<String, String>()
-                override fun get(key: String): String? = map[key]
-                override fun set(key: String, value: String) { map[key] = value }
+                override suspend fun get(key: String): String? = mutex.withLock { map[key] }
+                override suspend fun set(key: String, value: String) = mutex.withLock { map[key] = value }
             }
         }
     }
 
-    override fun findById(id: String): User? {
+    override suspend fun findById(id: String): User? {
         // Try cache first
         cache.get(id)?.let { return it }
 
@@ -35,7 +39,7 @@ class CachedUser(
         }
     }
 
-    override fun findByEmail(email: String): User? {
+    override suspend fun findByEmail(email: String): User? {
         // Check if we have the ID cached for this email
         emailToIdCache.get(email)?.let { id ->
             cache.get(id)?.let { return it }
@@ -48,7 +52,7 @@ class CachedUser(
         }
     }
 
-    override fun findAll(): List<User> {
+    override suspend fun findAll(): List<User> {
         // For findAll, we always go to delegate but cache the results
         return delegate.findAll().also { users ->
             users.forEach { user ->
@@ -58,7 +62,7 @@ class CachedUser(
         }
     }
 
-    override fun save(user: User): Boolean {
+    override suspend fun save(user: User): Boolean {
         // Write-through: save to delegate first, then cache
         val result = delegate.save(user)
         if (result) {
@@ -68,7 +72,7 @@ class CachedUser(
         return result
     }
 
-    override fun update(user: User): Boolean {
+    override suspend fun update(user: User): Boolean {
         // Write-through: update delegate first, then cache
         val result = delegate.update(user)
         if (result) {
@@ -78,7 +82,7 @@ class CachedUser(
         return result
     }
 
-    override fun existsByEmail(email: String): Boolean {
+    override suspend fun existsByEmail(email: String): Boolean {
         // Check email cache first
         if (emailToIdCache.get(email) != null) {
             return true

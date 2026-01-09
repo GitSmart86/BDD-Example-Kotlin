@@ -12,14 +12,15 @@ Hello there! This is a showcase of **Behavior-Driven Development (BDD)** princip
 - **Minimal Java knowledge** - I used the JVM ecosystem way back in uni. days but hadn't written Java since then.
 - **Strong BDD background** - Familiar with Dave Farley's testing philosophy and Gang of Four patterns. This builds on Kent Beck, Bob Martin, and Robert Fowler's work.
 
-### How I built it in <45 min
+### How I built it in 90 min
 
-I used **Claude Code** to help implement the architecture. The process was collaborative:
+I used Claude Code to help implement the architecture. The process was collaborative:
 
 1. I provided the Dave-Farley-BDD-principles.md to claude and the architectural direction
 2. Claude converted those concepts into Kotlin idioms
 3. I fed Claude baby steps to stay on a purist BDD approach and held it's hand when it tried to take shortcuts
-4. We just iterated on the test DSL design and kept cleaning up until the codebase read like specifications, IKEA EZ.
+4. We just iterated on the test DSL design and kept cleaning up until the codebase read like specifications.
+5. Once you reach the desired functionality and pass tests, then ensure that you have async optimizations, clean naming, and good docs.
 
 ---
 

@@ -2,6 +2,7 @@ package behavior
 
 import domain.ClientType
 import dsl.UserTestDSL
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.DisplayName
@@ -20,7 +21,7 @@ class CreditLimitBehaviorTest {
 
     @Test
     @DisplayName("VeryImportantClient user has no credit limit")
-    fun `VeryImportantClient user has no credit limit`() {
+    fun `VeryImportantClient user has no credit limit`() = runTest {
         // Given
         dsl.givenVeryImportantClient("vip-client")
         dsl.givenUserRequest(
@@ -41,7 +42,7 @@ class CreditLimitBehaviorTest {
 
     @Test
     @DisplayName("ImportantClient user gets 20000 credit limit")
-    fun `ImportantClient user gets 20000 credit limit`() {
+    fun `ImportantClient user gets 20000 credit limit`() = runTest {
         // Given
         dsl.givenImportantClient("important-client")
         dsl.givenUserRequest(
@@ -62,7 +63,7 @@ class CreditLimitBehaviorTest {
 
     @Test
     @DisplayName("Regular client user gets 10000 credit limit")
-    fun `Regular client user gets 10000 credit limit`() {
+    fun `Regular client user gets 10000 credit limit`() = runTest {
         // Given
         dsl.givenRegularClient("regular-client")
         dsl.givenUserRequest(

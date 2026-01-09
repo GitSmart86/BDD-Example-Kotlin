@@ -4,10 +4,10 @@ import domain.User
 import java.time.LocalDate
 
 interface UserService {
-    fun addUser(request: AddUserRequest): AddUserResult
-    fun updateUser(user: User): Boolean
-    fun getUserByEmail(email: String): User?
-    fun getAllUsers(): List<User>
+    suspend fun addUser(request: AddUserRequest): AddUserResult
+    suspend fun updateUser(user: User): Boolean
+    suspend fun getUserByEmail(email: String): User?
+    suspend fun getAllUsers(): List<User>
 }
 
 data class AddUserRequest(

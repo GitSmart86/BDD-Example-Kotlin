@@ -12,28 +12,28 @@ class InMemoryUserRepository : UserRepository {
     var findCallCount = 0
         private set
 
-    override fun findById(id: String): User? {
+    override suspend fun findById(id: String): User? {
         findCallCount++
         return users[id]
     }
 
-    override fun findByEmail(email: String): User? {
+    override suspend fun findByEmail(email: String): User? {
         findCallCount++
         return users.values.find { it.email == email }
     }
 
-    override fun findAll(): List<User> {
+    override suspend fun findAll(): List<User> {
         findCallCount++
         return users.values.toList()
     }
 
-    override fun save(user: User): Boolean {
+    override suspend fun save(user: User): Boolean {
         saveCallCount++
         users[user.id] = user
         return true
     }
 
-    override fun update(user: User): Boolean {
+    override suspend fun update(user: User): Boolean {
         saveCallCount++
         if (users.containsKey(user.id)) {
             users[user.id] = user
@@ -42,7 +42,7 @@ class InMemoryUserRepository : UserRepository {
         return false
     }
 
-    override fun existsByEmail(email: String): Boolean {
+    override suspend fun existsByEmail(email: String): Boolean {
         return users.values.any { it.email == email }
     }
 
@@ -62,12 +62,12 @@ class InMemoryClientRepository : ClientRepository {
     var findCallCount = 0
         private set
 
-    override fun findById(id: String): Client? {
+    override suspend fun findById(id: String): Client? {
         findCallCount++
         return clients[id]
     }
 
-    override fun findAll(): List<Client> {
+    override suspend fun findAll(): List<Client> {
         findCallCount++
         return clients.values.toList()
     }

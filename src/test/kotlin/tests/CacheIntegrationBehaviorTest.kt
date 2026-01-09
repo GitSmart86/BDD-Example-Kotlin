@@ -8,6 +8,7 @@ import domain.ClientType
 import domain.User
 import drivers.InMemoryUserRepository
 import fixtures.TestFixtures
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.DisplayName
@@ -27,7 +28,7 @@ class CacheIntegrationBehaviorTest {
 
     @Test
     @DisplayName("cache miss fetches from repository")
-    fun `cache miss fetches from repository`() {
+    fun `cache miss fetches from repository`() = runTest {
         // Given
         val user = TestFixtures.aUser(id = "user-1", email = "alice@example.com")
         userRepository.addUser(user)
@@ -49,7 +50,7 @@ class CacheIntegrationBehaviorTest {
 
     @Test
     @DisplayName("cache hit skips repository")
-    fun `cache hit skips repository`() {
+    fun `cache hit skips repository`() = runTest {
         // Given
         val user = TestFixtures.aUser(id = "user-1", email = "alice@example.com")
         cache.set("user-1", user)
@@ -68,7 +69,7 @@ class CacheIntegrationBehaviorTest {
 
     @Test
     @DisplayName("save updates both repository and cache")
-    fun `save updates both repository and cache`() {
+    fun `save updates both repository and cache`() = runTest {
         // Given
         val user = TestFixtures.aUser(id = "user-1", email = "alice@example.com")
 
@@ -86,7 +87,7 @@ class CacheIntegrationBehaviorTest {
 
     @Test
     @DisplayName("update propagates to cache")
-    fun `update propagates to cache`() {
+    fun `update propagates to cache`() = runTest {
         // Given
         val originalUser = TestFixtures.aUser(id = "user-1", firstname = "Alice")
         userRepository.save(originalUser)
@@ -105,7 +106,7 @@ class CacheIntegrationBehaviorTest {
 
     @Test
     @DisplayName("multiple users can be cached")
-    fun `multiple users can be cached`() {
+    fun `multiple users can be cached`() = runTest {
         // Given
         val alice = TestFixtures.aUser(id = "user-1", email = "alice@example.com")
         val bob = TestFixtures.aUser(id = "user-2", email = "bob@example.com")

@@ -13,7 +13,7 @@ class UserDefault(
     private val validator: UserValidator = UserValidator()
 ) : UserService {
 
-    override fun addUser(request: AddUserRequest): AddUserResult {
+    override suspend fun addUser(request: AddUserRequest): AddUserResult {
         // 1. Validate request fields
         validator.validate(request)?.let { return it }
 
@@ -50,15 +50,15 @@ class UserDefault(
         }
     }
 
-    override fun updateUser(user: User): Boolean {
+    override suspend fun updateUser(user: User): Boolean {
         return userRepository.update(user)
     }
 
-    override fun getUserByEmail(email: String): User? {
+    override suspend fun getUserByEmail(email: String): User? {
         return userRepository.findByEmail(email)
     }
 
-    override fun getAllUsers(): List<User> {
+    override suspend fun getAllUsers(): List<User> {
         return userRepository.findAll()
     }
 }

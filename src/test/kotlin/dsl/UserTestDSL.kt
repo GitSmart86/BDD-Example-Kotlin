@@ -58,7 +58,7 @@ class UserTestDSL {
         givenClient(id, "RegularClient", ClientType.REGULAR)
     }
 
-    fun givenExistingUser(email: String, firstname: String = "Existing", surname: String = "User") {
+    suspend fun givenExistingUser(email: String, firstname: String = "Existing", surname: String = "User") {
         val client = clientRepository.findAll().firstOrNull() ?: run {
             givenRegularClient()
             clientRepository.findById("regular-client")!!
@@ -88,25 +88,25 @@ class UserTestDSL {
     }
 
     // WHEN methods
-    fun whenAddingUser() {
+    suspend fun whenAddingUser() {
         requireNotNull(userService) { "UserService not configured. Call withUserService() first." }
         requireNotNull(currentRequest) { "No request configured. Call givenUserRequest() first." }
         currentResult = userService!!.addUser(currentRequest!!)
     }
 
-    fun whenAddingUser(request: AddUserRequest) {
+    suspend fun whenAddingUser(request: AddUserRequest) {
         requireNotNull(userService) { "UserService not configured. Call withUserService() first." }
         currentRequest = request
         currentResult = userService!!.addUser(request)
     }
 
-    fun whenUpdatingUser(user: User) {
+    suspend fun whenUpdatingUser(user: User) {
         requireNotNull(userService) { "UserService not configured. Call withUserService() first." }
         currentUser = user
         userService!!.updateUser(user)
     }
 
-    fun whenFetchingUserByEmail(email: String) {
+    suspend fun whenFetchingUserByEmail(email: String) {
         requireNotNull(userService) { "UserService not configured. Call withUserService() first." }
         currentUser = userService!!.getUserByEmail(email)
     }

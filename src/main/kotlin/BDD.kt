@@ -18,18 +18,21 @@ object BDD {
      */
     fun createUserService(
         cacheSize: Int = 100,
-        dbPath: String = "src/main/kotlin/data/db.json"
+        dbPath: String = "src/main/kotlin/data/db.json",
+        minimumAge: Int = 21
     ): service.UserService {
         val clientRepo = repository.JsonClient(dbPath)
         val jsonUserRepo = repository.JsonUser(dbPath, clientRepo)
         val cache = cache.Provider.createLRUCache<domain.User>(cache.Config(cacheSize))
         val cachedUserRepo = repository.CachedUser(jsonUserRepo, cache)
         val creditPolicy = policy.UserCreditsDefault()
+        val validator = service.UserValidator(minimumAge)
 
         return service.UserDefault(
             userRepository = cachedUserRepo,
             clientRepository = clientRepo,
-            creditPolicy = creditPolicy
+            creditPolicy = creditPolicy,
+            validator = validator
         )
     }
 

@@ -8,6 +8,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import domain.Client
 import domain.ClientType
 import domain.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -22,21 +24,21 @@ class JsonUser(
         disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
     }
 
-    override fun findById(id: String): User? {
+    override suspend fun findById(id: String): User? {
         return findAll().find { it.id == id }
     }
 
-    override fun findByEmail(email: String): User? {
+    override suspend fun findByEmail(email: String): User? {
         return findAll().find { it.email == email }
     }
 
-    override fun findAll(): List<User> {
-        return try {
+    override suspend fun findAll(): List<User> = withContext(Dispatchers.IO) {
+        try {
             val dbFile = File(dbFilePath)
-            if (!dbFile.exists()) return emptyList()
+            if (!dbFile.exists()) return@withContext emptyList()
 
             val root = objectMapper.readTree(dbFile) as ObjectNode
-            val users = root.get("users") as? ArrayNode ?: return emptyList()
+            val users = root.get("users") as? ArrayNode ?: return@withContext emptyList()
 
             users.mapNotNull { node -> mapToUser(node as ObjectNode) }
         } catch (e: Exception) {
@@ -44,8 +46,8 @@ class JsonUser(
         }
     }
 
-    override fun save(user: User): Boolean {
-        return try {
+    override suspend fun save(user: User): Boolean = withContext(Dispatchers.IO) {
+        try {
             val dbFile = File(dbFilePath)
             val root = if (dbFile.exists()) {
                 objectMapper.readTree(dbFile) as ObjectNode
@@ -66,13 +68,13 @@ class JsonUser(
         }
     }
 
-    override fun update(user: User): Boolean {
-        return try {
+    override suspend fun update(user: User): Boolean = withContext(Dispatchers.IO) {
+        try {
             val dbFile = File(dbFilePath)
-            if (!dbFile.exists()) return false
+            if (!dbFile.exists()) return@withContext false
 
             val root = objectMapper.readTree(dbFile) as ObjectNode
-            val users = root.get("users") as? ArrayNode ?: return false
+            val users = root.get("users") as? ArrayNode ?: return@withContext false
 
             var found = false
             for (i in 0 until users.size()) {
@@ -93,11 +95,11 @@ class JsonUser(
         }
     }
 
-    override fun existsByEmail(email: String): Boolean {
+    override suspend fun existsByEmail(email: String): Boolean {
         return findByEmail(email) != null
     }
 
-    private fun mapToUser(node: ObjectNode): User? {
+    private suspend fun mapToUser(node: ObjectNode): User? {
         return try {
             // The JSON stores client as an embedded object, not just clientId
             val clientNode = node.get("client") as? ObjectNode

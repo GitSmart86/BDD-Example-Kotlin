@@ -3,6 +3,7 @@ package behavior
 import domain.Client
 import domain.ClientType
 import drivers.InMemoryClientRepository
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.DisplayName
@@ -20,7 +21,7 @@ class ClientRepositoryBehaviorTest {
 
     @Test
     @DisplayName("finds client by ID")
-    fun `finds client by ID`() {
+    fun `finds client by ID`() = runTest {
         // Given
         val client = Client(id = "client-1", name = "Test Client", type = ClientType.REGULAR)
         repository.addClient(client)
@@ -37,7 +38,7 @@ class ClientRepositoryBehaviorTest {
 
     @Test
     @DisplayName("returns null for non-existent client")
-    fun `returns null for non-existent client`() {
+    fun `returns null for non-existent client`() = runTest {
         // Given - empty repository
 
         // When
@@ -49,7 +50,7 @@ class ClientRepositoryBehaviorTest {
 
     @Test
     @DisplayName("returns all clients")
-    fun `returns all clients`() {
+    fun `returns all clients`() = runTest {
         // Given
         repository.addClient(Client("c1", "Client 1", ClientType.REGULAR))
         repository.addClient(Client("c2", "Client 2", ClientType.IMPORTANT))
@@ -67,7 +68,7 @@ class ClientRepositoryBehaviorTest {
 
     @Test
     @DisplayName("returns empty list when no clients exist")
-    fun `returns empty list when no clients exist`() {
+    fun `returns empty list when no clients exist`() = runTest {
         // Given - empty repository
 
         // When
@@ -79,7 +80,7 @@ class ClientRepositoryBehaviorTest {
 
     @Test
     @DisplayName("tracks find call count")
-    fun `tracks find call count`() {
+    fun `tracks find call count`() = runTest {
         // Given
         repository.addClient(Client("c1", "Client 1", ClientType.REGULAR))
 

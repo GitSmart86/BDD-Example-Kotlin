@@ -21,6 +21,6 @@ package cache
  *  - Read guides about how to code an LRU cache.
  */
 interface Interface<T> {
-    fun get(key: String): T?
-    fun set(key: String, value: T)
+    suspend fun get(key: String): T?
+    suspend fun set(key: String, value: T)
 }

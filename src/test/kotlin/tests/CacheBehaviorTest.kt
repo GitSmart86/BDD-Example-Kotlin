@@ -1,6 +1,7 @@
 package behavior
 
 import dsl.CacheTestDSL
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.DisplayName
@@ -17,7 +18,7 @@ class CacheBehaviorTest {
 
     @Test
     @DisplayName("stores and retrieves items")
-    fun `stores and retrieves items`() {
+    fun `stores and retrieves items`() = runTest {
         // Given
         dsl.givenCacheWithCapacity(10)
 
@@ -30,7 +31,7 @@ class CacheBehaviorTest {
 
     @Test
     @DisplayName("returns null for non-existent key")
-    fun `returns null for non-existent key`() {
+    fun `returns null for non-existent key`() = runTest {
         // Given
         dsl.givenCacheWithCapacity(10)
         dsl.givenCachedItem("user-1", "Alice")
@@ -44,7 +45,7 @@ class CacheBehaviorTest {
 
     @Test
     @DisplayName("evicts least recently used when capacity exceeded")
-    fun `evicts least recently used when capacity exceeded`() {
+    fun `evicts least recently used when capacity exceeded`() = runTest {
         // Given
         dsl.givenCacheWithCapacity(2)
         dsl.givenCachedItem("user-A", "Alice")
@@ -62,7 +63,7 @@ class CacheBehaviorTest {
 
     @Test
     @DisplayName("update does not cause eviction")
-    fun `update does not cause eviction`() {
+    fun `update does not cause eviction`() = runTest {
         // Given
         dsl.givenCacheWithCapacity(2)
         dsl.givenCachedItem("user-A", "Alice")
@@ -78,7 +79,7 @@ class CacheBehaviorTest {
 
     @Test
     @DisplayName("get refreshes access time")
-    fun `get refreshes access time`() {
+    fun `get refreshes access time`() = runTest {
         // Given
         dsl.givenCacheWithCapacity(2)
         dsl.givenCachedItem("user-A", "Alice")
@@ -96,7 +97,7 @@ class CacheBehaviorTest {
 
     @Test
     @DisplayName("can re-add evicted items")
-    fun `can re-add evicted items`() {
+    fun `can re-add evicted items`() = runTest {
         // Given
         dsl.givenCacheWithCapacity(1)
         dsl.givenCachedItem("user-A", "Alice")

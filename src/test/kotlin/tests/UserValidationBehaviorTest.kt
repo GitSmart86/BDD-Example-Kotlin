@@ -6,6 +6,7 @@ import policy.UserCredits
 import service.AddUserRequest
 import dsl.UserTestDSL
 import fixtures.TestFixtures
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.DisplayName
@@ -24,7 +25,7 @@ class UserValidationBehaviorTest {
 
     @Test
     @DisplayName("rejects user under 21 years old")
-    fun `rejects user under 21 years old`() {
+    fun `rejects user under 21 years old`() = runTest {
         // Given
         dsl.givenRegularClient("client-1")
         dsl.givenUserRequest(
@@ -44,7 +45,7 @@ class UserValidationBehaviorTest {
 
     @Test
     @DisplayName("accepts user exactly 21 years old")
-    fun `accepts user exactly 21 years old`() {
+    fun `accepts user exactly 21 years old`() = runTest {
         // Given
         dsl.givenRegularClient("client-1")
         dsl.givenUserRequest(
@@ -64,7 +65,7 @@ class UserValidationBehaviorTest {
 
     @Test
     @DisplayName("accepts user over 21 years old")
-    fun `accepts user over 21 years old`() {
+    fun `accepts user over 21 years old`() = runTest {
         // Given
         dsl.givenRegularClient("client-1")
         dsl.givenUserRequest(
@@ -84,7 +85,7 @@ class UserValidationBehaviorTest {
 
     @Test
     @DisplayName("rejects duplicate email")
-    fun `rejects duplicate email`() {
+    fun `rejects duplicate email`() = runTest {
         // Given
         dsl.givenRegularClient("client-1")
         dsl.givenExistingUser(email = "existing@example.com")
@@ -102,7 +103,7 @@ class UserValidationBehaviorTest {
 
     @Test
     @DisplayName("rejects request with non-existent client")
-    fun `rejects request with non-existent client`() {
+    fun `rejects request with non-existent client`() = runTest {
         // Given - no client setup
         dsl.givenUserRequest(
             clientId = "non-existent-client"
@@ -117,7 +118,7 @@ class UserValidationBehaviorTest {
 
     @Test
     @DisplayName("rejects empty firstname")
-    fun `rejects empty firstname`() {
+    fun `rejects empty firstname`() = runTest {
         // Given
         dsl.givenRegularClient("client-1")
         dsl.givenUserRequest(
@@ -134,7 +135,7 @@ class UserValidationBehaviorTest {
 
     @Test
     @DisplayName("rejects empty surname")
-    fun `rejects empty surname`() {
+    fun `rejects empty surname`() = runTest {
         // Given
         dsl.givenRegularClient("client-1")
         dsl.givenUserRequest(
@@ -151,7 +152,7 @@ class UserValidationBehaviorTest {
 
     @Test
     @DisplayName("rejects empty email")
-    fun `rejects empty email`() {
+    fun `rejects empty email`() = runTest {
         // Given
         dsl.givenRegularClient("client-1")
         dsl.givenUserRequest(
