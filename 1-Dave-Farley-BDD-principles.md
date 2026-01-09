@@ -1,4 +1,4 @@
-# Semantic Explanation
+# Dave Farely's BDD Architecture Explained
 
 Test Cases
 
@@ -42,7 +42,7 @@ Replaceable transports
 
 Clear separation of intent vs mechanism
 
-## Test Architecture with DSL and Protocol Drivers
+## Structure of the DSL and Protocol Drivers
 
 ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐
 │ Test Case │   │ Test Case │   │ Test Case │   │ Test Case │   │ Test Case │   │ Test Case │

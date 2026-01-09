@@ -18,60 +18,39 @@ This project demonstrates a **Behavior-Driven Development (BDD)** approach where
 
 ## Layered Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                            TEST LAYER                                        │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐           │
-│  │ UserBehaviorTest │  │ CacheBehaviorTest│  │ ClientBehaviorTest│          │
-│  └────────┬─────────┘  └────────┬─────────┘  └────────┬─────────┘           │
-│           │                     │                     │                      │
-│           └─────────────────────┼─────────────────────┘                      │
-│                                 ▼                                            │
-│                    ┌────────────────────────┐                                │
-│                    │    Test DSL Layer      │                                │
-│                    │  (UserTestDSL, etc.)   │                                │
-│                    └───────────┬────────────┘                                │
-│                                │                                             │
-└────────────────────────────────┼─────────────────────────────────────────────┘
-                                 │
-┌────────────────────────────────┼─────────────────────────────────────────────┐
-│                         INTERFACE LAYER                                      │
-├────────────────────────────────┼─────────────────────────────────────────────┤
-│                                ▼                                             │
-│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐           │
-│  │ UserRepository   │  │ ClientRepository │  │   LRUCache<T>    │           │
-│  │   (interface)    │  │   (interface)    │  │   (interface)    │           │
-│  └──────────────────┘  └──────────────────┘  └──────────────────┘           │
-│                                                                              │
-│  ┌──────────────────┐  ┌──────────────────┐                                 │
-│  │  UserService     │  │  CreditPolicy    │  (Business Logic Interfaces)    │
-│  │   (interface)    │  │   (interface)    │                                 │
-│  └──────────────────┘  └──────────────────┘                                 │
-│                                                                              │
-└──────────────────────────────────────────────────────────────────────────────┘
-                                 │
-┌────────────────────────────────┼─────────────────────────────────────────────┐
-│                      IMPLEMENTATION LAYER                                    │
-├────────────────────────────────┼─────────────────────────────────────────────┤
-│                                ▼                                             │
-│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐           │
-│  │JsonUserRepository│  │JsonClientRepo    │  │ LRUCacheImpl<T>  │           │
-│  └──────────────────┘  └──────────────────┘  └──────────────────┘           │
-│                                                                              │
-│  ┌──────────────────┐  ┌──────────────────┐                                 │
-│  │CachedUserRepo    │  │DefaultCreditPol. │  (Decorators & Implementations) │
-│  │  (decorator)     │  │                  │                                 │
-│  └──────────────────┘  └──────────────────┘                                 │
-│                                                                              │
-└──────────────────────────────────────────────────────────────────────────────┘
-                                 │
-                                 ▼
-                    ┌────────────────────────┐
-                    │       db.json          │
-                    │   (Data Storage)       │
-                    └────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph TEST["TEST LAYER"]
+        UBT[UserBehaviorTest]
+        CBT[CacheBehaviorTest]
+        CLBT[ClientBehaviorTest]
+        UBT & CBT & CLBT --> DSL[Test DSL Layer<br/>UserTestDSL, CacheTestDSL]
+    end
+
+    subgraph INTERFACE["INTERFACE LAYER"]
+        UR[UserRepository<br/>interface]
+        CR[ClientRepository<br/>interface]
+        LC[LRUCache&lt;T&gt;<br/>interface]
+        US[UserService<br/>interface]
+        CP[CreditPolicy<br/>interface]
+    end
+
+    subgraph IMPL["IMPLEMENTATION LAYER"]
+        JUR[JsonUserRepository]
+        JCR[JsonClientRepository]
+        LCI[LRUCacheImpl&lt;T&gt;]
+        CUR[CachedUserRepo<br/>decorator]
+        DCP[DefaultCreditPolicy]
+    end
+
+    DB[(db.json<br/>Data Storage)]
+
+    DSL --> UR & CR & LC & US & CP
+    UR -.-> JUR & CUR
+    CR -.-> JCR
+    LC -.-> LCI
+    CP -.-> DCP
+    JUR & JCR --> DB
 ```
 
 ---
@@ -140,77 +119,43 @@ This project demonstrates a **Behavior-Driven Development (BDD)** approach where
 
 ### User Addition Flow
 
-```
-AddUserRequest
-      │
-      ▼
-┌─────────────────┐
-│ Validate Fields │──── Empty? ────► ValidationError
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  Check Age ≥21  │──── Under 21? ──► ValidationError
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  Email Exists?  │──── Yes? ───────► DuplicateEmail
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  Lookup Client  │──── Not Found? ─► ClientNotFound
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│ Calculate Credit│
-│     Limit       │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│   Save User     │
-└────────┬────────┘
-         │
-         ▼
-    Success(User)
+```mermaid
+flowchart TD
+    A[AddUserRequest] --> B{Validate Fields}
+    B -->|Empty?| C[ValidationError]
+    B -->|Valid| D{Check Age ≥ 21}
+    D -->|Under 21| C
+    D -->|Valid| E{Email Exists?}
+    E -->|Yes| F[DuplicateEmail]
+    E -->|No| G{Lookup Client}
+    G -->|Not Found| H[ClientNotFound]
+    G -->|Found| I[Calculate Credit Limit]
+    I --> J[Save User]
+    J --> K[Success - User]
 ```
 
 ### Cache-Aside Pattern
 
-```
-READ PATH                          WRITE PATH
-─────────                          ──────────
-findById(id)                       save(user)
-     │                                  │
-     ▼                                  ▼
-┌──────────┐                      ┌──────────┐
-│Cache.get │                      │Delegate  │
-└────┬─────┘                      │  .save   │
-     │                            └────┬─────┘
-   Hit? ──Yes──► Return                │
-     │                              Success?
-    No                                 │
-     │                               Yes
-     ▼                                 │
-┌──────────┐                           ▼
-│Delegate  │                      ┌──────────┐
-│.findById │                      │Cache.set │
-└────┬─────┘                      └────┬─────┘
-     │                                 │
-  Found?                               ▼
-     │                            Return true
-    Yes
-     │
-     ▼
-┌──────────┐
-│Cache.set │
-└────┬─────┘
-     │
-     ▼
- Return User
+```mermaid
+flowchart LR
+    subgraph READ["READ PATH: findById(id)"]
+        direction TB
+        R1[Cache.get] --> R2{Hit?}
+        R2 -->|Yes| R3[Return cached]
+        R2 -->|No| R4[Delegate.findById]
+        R4 --> R5{Found?}
+        R5 -->|Yes| R6[Cache.set]
+        R6 --> R7[Return User]
+        R5 -->|No| R8[Return null]
+    end
+
+    subgraph WRITE["WRITE PATH: save(user)"]
+        direction TB
+        W1[Delegate.save] --> W2{Success?}
+        W2 -->|Yes| W3[Cache.set]
+        W3 --> W4[Return true]
+        W2 -->|No| W5[Return false]
+    end
 ```
 
 ---
