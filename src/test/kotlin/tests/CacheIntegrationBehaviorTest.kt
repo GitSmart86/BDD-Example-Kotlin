@@ -1,8 +1,8 @@
 package behavior
 
-import com.speechify.cache.CacheLimitsConfig
-import com.speechify.cache.LRUCacheInterface
-import com.speechify.cache.LRUCacheProvider
+import com.speechify.cache.Config
+import com.speechify.cache.Interface as CacheInterface
+import com.speechify.cache.Provider
 import com.speechify.domain.Client
 import com.speechify.domain.ClientType
 import com.speechify.domain.User
@@ -17,12 +17,12 @@ import org.junit.jupiter.api.Assertions.*
 class CacheIntegrationBehaviorTest {
 
     private lateinit var userRepository: InMemoryUserRepository
-    private lateinit var cache: LRUCacheInterface<User>
+    private lateinit var cache: CacheInterface<User>
 
     @BeforeEach
     fun setup() {
         userRepository = InMemoryUserRepository()
-        cache = LRUCacheProvider.createLRUCache(CacheLimitsConfig(10))
+        cache = Provider.createLRUCache(Config(10))
     }
 
     @Test

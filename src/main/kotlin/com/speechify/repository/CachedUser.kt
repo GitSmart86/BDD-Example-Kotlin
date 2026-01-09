@@ -1,6 +1,6 @@
 package com.speechify.repository
 
-import com.speechify.cache.LRUCacheInterface
+import com.speechify.cache.Interface as CacheInterface
 import com.speechify.domain.User
 
 /**
@@ -10,13 +10,13 @@ import com.speechify.domain.User
  */
 class CachedUser(
     private val delegate: UserRepository,
-    private val cache: LRUCacheInterface<User>,
-    private val emailToIdCache: LRUCacheInterface<String> = createSimpleCache()
+    private val cache: CacheInterface<User>,
+    private val emailToIdCache: CacheInterface<String> = createSimpleCache()
 ) : UserRepository {
 
     companion object {
-        private fun createSimpleCache(): LRUCacheInterface<String> {
-            return object : LRUCacheInterface<String> {
+        private fun createSimpleCache(): CacheInterface<String> {
+            return object : CacheInterface<String> {
                 private val map = mutableMapOf<String, String>()
                 override fun get(key: String): String? = map[key]
                 override fun set(key: String, value: String) { map[key] = value }

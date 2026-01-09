@@ -30,7 +30,7 @@ flowchart TB
     subgraph INTERFACE["INTERFACE LAYER"]
         UR[UserRepository<br/>interface]
         CR[ClientRepository<br/>interface]
-        LC[LRUCache&lt;T&gt;<br/>interface]
+        LC[cache.Interface&lt;T&gt;]
         US[UserService<br/>interface]
         CP[UserCredits<br/>interface]
     end
@@ -38,7 +38,7 @@ flowchart TB
     subgraph IMPL["IMPLEMENTATION LAYER"]
         JUR[JsonUser]
         JCR[JsonClient]
-        LCI[LRUCacheImpl&lt;T&gt;]
+        LCI[cache.Impl&lt;T&gt;]
         CUR[CachedUserRepo<br/>decorator]
         DCP[UserCreditsDefault]
     end
@@ -106,10 +106,10 @@ flowchart LR
 src/
 ├── main/kotlin/com/speechify/
 │   ├── cache/
-│   │   ├── CacheLimitsConfig.kt       # Cache configuration
-│   │   ├── LRUCacheInterface.kt       # Cache interface
-│   │   ├── LRUCacheProvider.kt        # Cache factory
-│   │   └── LRUCacheImpl.kt            # LRU implementation
+│   │   ├── Config.kt                  # Cache configuration
+│   │   ├── Interface.kt               # Cache interface
+│   │   ├── Provider.kt                # Cache factory
+│   │   └── Impl.kt                    # LRU implementation
 │   ├── domain/
 │   │   └── Models.kt                  # User, Client, ClientType
 │   ├── repository/
@@ -147,7 +147,7 @@ src/
 
 | File | Pattern | Description |
 | ---- | ------- | ----------- |
-| `LRUCacheProvider.kt` | **Factory** | Encapsulates creation of `LRUCacheImpl` instances |
+| `cache/Provider.kt` | **Factory** | Encapsulates creation of cache instances |
 | `UserCredits.kt` | **Strategy** (Interface) | Defines contract for credit limit algorithms |
 | `UserCreditsDefault.kt` | **Strategy** (Impl) | Implements credit logic based on `ClientType` |
 | `CachedUser.kt` | **Decorator** | Wraps `UserRepository` to add transparent caching |

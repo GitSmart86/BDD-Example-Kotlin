@@ -1,6 +1,6 @@
 package com.speechify.cache
 
-class LRUCacheImpl<T>(private val maxSize: Int) : LRUCacheInterface<T> {
+class Impl<T>(private val maxSize: Int) : Interface<T> {
     // Use LinkedHashMap with accessOrder=true for automatic LRU ordering
     // When accessOrder is true, the order of iteration is the order in which entries were last accessed
     private val cache = object : LinkedHashMap<String, T>(maxSize, 0.75f, true) {

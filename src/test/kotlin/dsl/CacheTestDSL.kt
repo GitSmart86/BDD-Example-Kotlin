@@ -1,18 +1,18 @@
 package dsl
 
-import com.speechify.cache.CacheLimitsConfig
-import com.speechify.cache.LRUCacheInterface
-import com.speechify.cache.LRUCacheProvider
+import com.speechify.cache.Config
+import com.speechify.cache.Interface as CacheInterface
+import com.speechify.cache.Provider
 import org.junit.jupiter.api.Assertions.*
 
 class CacheTestDSL<T> {
-    private var cache: LRUCacheInterface<T>? = null
+    private var cache: CacheInterface<T>? = null
     private var lastRetrievedValue: T? = null
     private val accessOrder = mutableListOf<String>()
 
     // GIVEN methods
     fun givenCacheWithCapacity(capacity: Int) {
-        cache = LRUCacheProvider.createLRUCache(CacheLimitsConfig(capacity))
+        cache = Provider.createLRUCache(Config(capacity))
     }
 
     fun givenCachedItem(key: String, value: T) {
@@ -83,7 +83,7 @@ class CacheTestDSL<T> {
         return accessOrder.size
     }
 
-    fun getCache(): LRUCacheInterface<T>? = cache
+    fun getCache(): CacheInterface<T>? = cache
 
     fun reset() {
         cache = null

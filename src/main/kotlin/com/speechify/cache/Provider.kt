@@ -11,8 +11,8 @@ package com.speechify.cache
  *  - Read guides about how to code an LRU cache.
  */
 
-object LRUCacheProvider {
-    fun <T> createLRUCache(options: CacheLimitsConfig): LRUCacheInterface<T> {
-        return LRUCacheImpl(options.maxItemsCount)
+object Provider {
+    fun <T> createLRUCache(options: Config): Interface<T> {
+        return Impl(options.maxItemsCount)
     }
 }

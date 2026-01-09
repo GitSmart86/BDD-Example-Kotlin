@@ -20,7 +20,7 @@ package com.speechify.cache
  * You must not:
  *  - Read guides about how to code an LRU cache.
  */
-interface LRUCacheInterface<T> {
+interface Interface<T> {
     fun get(key: String): T?
     fun set(key: String, value: T)
 }
