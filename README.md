@@ -1,6 +1,4 @@
-# BDD Example - Kotlin
-
-`Hello there!`
+# Hello there
 
 This is a showcase of **Behavior-Driven Development (BDD)** principles applied to a user management service in Kotlin.
 
